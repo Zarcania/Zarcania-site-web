@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Mail, Phone, Send, CheckCircle } from 'lucide-react';
-import Footer from './Footer';
 // import GlitchText from './GlitchText';
 
 const ContactPage = () => {
@@ -173,14 +172,7 @@ const ContactPage = () => {
         </div>
       </div>
 
-      {/* Footer */}
-      <Footer 
-        onPortfolioClick={() => window.location.href = '/#portfolio'}
-        onFormulesClick={() => window.location.href = '/#formules'}
-        onContactClick={() => {}}
-  onAppointmentClick={() => window.dispatchEvent(new Event('navigate:appointment'))}
-        onNavigateHome={() => window.location.href = '/'}
-      />
+  {/* Footer rendu par App */}
     </div>
   );
 };

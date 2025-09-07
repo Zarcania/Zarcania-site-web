@@ -1,25 +1,9 @@
-import React, { useState } from 'react';
-import { Calendar, Clock, User, Mail, Phone, MessageSquare, CheckCircle, Rocket, Star, Crown, Palette, Code } from 'lucide-react';
-import Footer from './Footer';
+// jsx runtime enabled; no React import needed
+import { Calendar, MessageSquare, Rocket, Palette, Code } from 'lucide-react';
 import GlitchText from './GlitchText';
 
 const AppointmentPage = () => {
-  const [selectedDate, setSelectedDate] = useState('');
-  const [selectedTime, setSelectedTime] = useState('');
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    company: '',
-    project: ''
-  });
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [animationStarted, setAnimationStarted] = useState(false);
-  const [calendlyLoaded, setCalendlyLoaded] = useState(false);
-
-  const timeSlots = [
-    '09:00', '10:00', '11:00', '14:00', '15:00', '16:00', '17:00'
-  ];
+  // La réservation se fait via Calendly, aucun état local nécessaire ici
 
 
   const processSteps = [
@@ -54,10 +38,9 @@ const AppointmentPage = () => {
         {/* Header */}
         <div className="text-center mb-16 animate-fadeInUp">
           <div className="inline-block mb-6">
-            <GlitchText 
-              text="RÉSERVEZ VOTRE CONSULTATION" 
-              className="text-4xl md:text-6xl font-bold font-futuristic bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent"
-            />
+            <GlitchText className="text-4xl md:text-6xl font-bold font-futuristic bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
+              RÉSERVEZ VOTRE CONSULTATION
+            </GlitchText>
           </div>
         </div>
 
@@ -165,14 +148,7 @@ const AppointmentPage = () => {
         </div>
       </div>
 
-      {/* Footer */}
-      <Footer 
-        onPortfolioClick={() => window.location.href = '/#portfolio'}
-        onFormulesClick={() => window.location.href = '/#formules'}
-        onContactClick={() => window.location.href = '/#contact'}
-        onAppointmentClick={() => {}}
-        onNavigateHome={() => window.location.href = '/'}
-      />
+  {/* Footer rendu par App */}
     </div>
   );
 };

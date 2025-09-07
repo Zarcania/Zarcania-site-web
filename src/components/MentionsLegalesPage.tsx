@@ -1,6 +1,5 @@
-import React from 'react';
+// jsx runtime enabled; no React import needed
 import { ArrowLeft, Building, Mail, Phone, Scale, Shield, Eye, Lock, Globe, FileText } from 'lucide-react';
-import Footer from './Footer';
 
 const MentionsLegalesPage = () => {
   const handleBackClick = () => {
@@ -228,15 +227,7 @@ const MentionsLegalesPage = () => {
         </div>
       </div>
 
-      {/* Footer */}
-      <Footer 
-        onPortfolioClick={() => window.location.href = '/#portfolio'}
-        onFormulesClick={() => window.location.href = '/#formules'}
-        onContactClick={() => window.location.href = '/#contact'}
-  onAppointmentClick={() => window.dispatchEvent(new Event('navigate:appointment'))}
-        onNavigateHome={() => window.location.href = '/'}
-        onMentionsLegalesClick={() => {}}
-      />
+  {/* Footer rendu par App */}
     </div>
   );
 };

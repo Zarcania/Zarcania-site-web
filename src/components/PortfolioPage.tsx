@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Star, Rocket, ExternalLink, Code, Zap, Check, ChevronLeft, ChevronRight, Eye, Heart, Award, TrendingUp } from 'lucide-react';
-import Footer from './Footer';
 
 const PortfolioPage: React.FC = () => {
   const [selectedProject, setSelectedProject] = useState(0);
@@ -82,7 +81,8 @@ const PortfolioPage: React.FC = () => {
 
   // CTA handlers are delegated to Footer and global navigation
 
-  const getColorClasses = (color: string) => {
+  type Color = 'cyan' | 'blue' | 'slate';
+  const getColorClasses = (color: Color) => {
     const colors = {
       cyan: { border: 'border-cyan-400/50', bg: 'bg-cyan-500/10', text: 'text-cyan-300' },
       blue: { border: 'border-blue-400/50', bg: 'bg-blue-500/10', text: 'text-blue-300' },
@@ -285,7 +285,7 @@ const PortfolioPage: React.FC = () => {
                 {/* Project Thumbnails */}
                 <div className="grid grid-cols-2 gap-4">
                   {currentProjects.map((item, index) => {
-                    const colorClasses = getColorClasses(item.color);
+                    const colorClasses = getColorClasses(item.color as Color);
                     const isSelected = selectedProject === index;
                     
                     return (
@@ -360,7 +360,7 @@ const PortfolioPage: React.FC = () => {
             </h3>
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
               {currentProjects.map((item, index) => {
-                const colorClasses = getColorClasses(item.color);
+                const colorClasses = getColorClasses(item.color as Color);
                 
                 return (
                   <div
@@ -426,14 +426,7 @@ const PortfolioPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Footer */}
-      <Footer 
-        onPortfolioClick={() => {}}
-        onFormulesClick={() => window.location.href = '/#formules'}
-        onContactClick={() => window.location.href = '/#contact'}
-  onAppointmentClick={() => window.dispatchEvent(new Event('navigate:appointment'))}
-        onNavigateHome={() => window.location.href = '/'}
-      />
+  {/* Footer rendu par App */}
     </div>
   );
 };

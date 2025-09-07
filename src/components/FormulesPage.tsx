@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-import { Check, Rocket, Star, Crown, ArrowRight, Calendar, Zap, Shield, Headphones, Globe, Palette, Code, Search, ShoppingCart, Users, BarChart3, Smartphone, Monitor, Tablet } from 'lucide-react';
-import Footer from './Footer';
-import GlitchText from './GlitchText';
+import { Check, Rocket, Star, Crown, ArrowRight, Calendar, Shield, Headphones, Globe, Palette, Code, Search, Users, BarChart3, Smartphone } from 'lucide-react';
 
 const FormulesPage: React.FC = () => {
   // Récupérer le paramètre de sélection depuis l'URL
@@ -145,7 +143,8 @@ const FormulesPage: React.FC = () => {
     window.dispatchEvent(new Event('navigate:appointment'));
   };
 
-  const getColorClasses = (color: string) => {
+  type Color = 'cyan' | 'blue' | 'slate';
+  const getColorClasses = (color: Color) => {
     const colors = {
       cyan: { border: 'border-cyan-400/50', bg: 'bg-cyan-500/10', text: 'text-cyan-300', ring: 'ring-cyan-400' },
       blue: { border: 'border-blue-400/50', bg: 'bg-blue-500/10', text: 'text-blue-300', ring: 'ring-blue-400' },
@@ -202,7 +201,7 @@ const FormulesPage: React.FC = () => {
                 {/* Sélecteur de formules */}
                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
                   {formules.map((formule, index) => {
-                    const colorClasses = getColorClasses(formule.color);
+                    const colorClasses = getColorClasses(formule.color as Color);
                     const isSelected = selectedFormule === index;
                     
                     return (
@@ -284,7 +283,7 @@ const FormulesPage: React.FC = () => {
                           const elements = document.querySelectorAll('[class*="step-"]');
                           elements.forEach(el => {
                             el.classList.remove('animate-step-sequence');
-                            void el.offsetWidth; // Force reflow
+                            void (el as HTMLElement).offsetWidth; // Force reflow
                             el.classList.add('animate-step-sequence');
                           });
                         }}
@@ -461,14 +460,7 @@ const FormulesPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Footer */}
-      <Footer 
-        onPortfolioClick={() => window.location.href = '/#portfolio'}
-        onFormulesClick={() => {}}
-        onContactClick={() => window.location.href = '/#contact'}
-  onAppointmentClick={() => window.dispatchEvent(new Event('navigate:appointment'))}
-        onNavigateHome={() => window.location.href = '/'}
-      />
+  {/* Footer rendu par App */}
     </div>
   );
 };
