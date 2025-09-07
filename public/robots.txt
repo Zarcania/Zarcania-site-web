@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /private/
+Disallow: /*.json$
+Disallow: /api/
+
+# Sitemap
+Sitemap: https://zarcania-duplicated-5wuu.bolt.host/sitemap.xml
+
+# Crawl-delay
+Crawl-delay: 1
