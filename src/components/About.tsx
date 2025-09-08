@@ -1,8 +1,5 @@
-import React from 'react';
-import { Users, Target, Zap, Award } from 'lucide-react';
 import LogoLoop from './LogoLoop';
 import { SiReact, SiJavascript, SiTypescript, SiTailwindcss, SiNodedotjs, SiMongodb, SiGit, SiFigma } from 'react-icons/si';
-import GlitchText from './GlitchText';
 
 const About = () => {
   const team = [
@@ -18,44 +15,7 @@ const About = () => {
     }
   ];
 
-  const values = [
-    {
-      icon: <Zap className="w-8 h-8" />,
-      title: 'Rapidité',
-      description: 'Livraison garantie en 7 jours maximum'
-    },
-    {
-      icon: <Award className="w-8 h-8" />,
-      title: 'Qualité',
-      description: 'Design professionnel et code optimisé'
-    },
-    {
-      icon: <Target className="w-8 h-8" />,
-      title: 'Transparence',
-      description: 'Prix fixes, pas de surprises'
-    }
-  ];
-
-  const news = [
-    {
-      title: 'Nouveau site e-commerce livré',
-      description: 'Boutique en ligne complète pour un client parisien',
-      date: 'Janvier 2025',
-      image: 'https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=400&h=250&fit=crop'
-    },
-    {
-      title: 'Partenariat avec une agence de design',
-      description: 'Collaboration pour des projets premium',
-      date: 'Décembre 2024',
-      image: 'https://images.pexels.com/photos/3184339/pexels-photo-3184339.jpeg?auto=compress&cs=tinysrgb&w=400&h=250&fit=crop'
-    },
-    {
-      title: 'Lancement de notre nouvelle IA',
-      description: 'Prévisualisation instantanée des sites web',
-      date: 'Novembre 2024',
-      image: 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=400&h=250&fit=crop'
-    }
-  ];
+  // (contenu non utilisé retiré)
 
   return (
     <section id="about" className="py-8 sm:py-12 md:py-16 bg-transparent relative">
@@ -95,7 +55,7 @@ const About = () => {
                 <div className="relative mb-6 sm:mb-8 md:mb-10">
                   <div className="w-32 sm:w-40 md:w-48 lg:w-56 h-32 sm:h-40 md:h-48 lg:h-56 mx-auto rounded-full overflow-hidden border-4 sm:border-6 md:border-8 border-cyan-400/50 group-hover:border-cyan-400 group-hover:shadow-2xl group-hover:shadow-cyan-500/50 transition-all duration-500 animate-pulse-glow">
                     <img
-                      src={index === 0 ? "/WhatsApp Image 2025-09-04 à 22.54.53_7ef95f7c.jpg" : "/WhatsApp Image 2025-09-04 à 23.03.14_3ef453ca.jpg"}
+                      src={member.image}
                       alt={member.name}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     />
