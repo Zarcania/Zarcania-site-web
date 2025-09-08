@@ -136,6 +136,7 @@ const Footer: React.FC<FooterProps> = ({
                 <span>•</span>
                 <a 
                   href="/CGV.pdf" 
+                  download="CGV-Zarcania.pdf"
                   target="_blank" 
                   rel="noopener noreferrer" 
                   className="hover:text-cyan-300 transition-colors"

@@ -1,10 +1,8 @@
 // jsx runtime enabled; no React import needed
-import { ArrowLeft, Building, Mail, Phone, Scale, Shield, Eye, Lock, Globe, FileText } from 'lucide-react';
+import { Building, Mail, Phone, Scale, Shield, Eye, Lock, Globe, FileText } from 'lucide-react';
 
 const MentionsLegalesPage = () => {
-  const handleBackClick = () => {
-    window.history.back();
-  };
+  // Back button removed per request
 
   return (
     <div className="min-h-screen bg-transparent relative overflow-hidden">
@@ -12,15 +10,7 @@ const MentionsLegalesPage = () => {
       
       <div className="container mx-auto px-6 py-20 relative z-10">
         {/* Header Section */}
-        <div className="text-center mb-16 animate-fadeInUp">
-          <button
-            onClick={handleBackClick}
-            className="inline-flex items-center text-cyan-400 hover:text-cyan-300 transition-colors mb-8 font-modern"
-          >
-            <ArrowLeft className="w-5 h-5 mr-2" />
-            Retour
-          </button>
-          
+  <div className="text-center mb-16 animate-fadeInUp">
           <h1 className="text-5xl md:text-6xl font-bold font-futuristic text-white mb-8 tracking-wide">
             Mentions Légales
           </h1>
