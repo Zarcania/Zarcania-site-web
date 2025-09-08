@@ -6,12 +6,12 @@ const About = () => {
     {
       name: 'Anthony Corradi',
       role: 'Fondateur de ZA',
-      image: '/anthony-corradi.jpg'
+      image: '/anthony-corradi.jpg?v=2'
     },
     {
       name: 'Jordan Corradi',
       role: 'Développeur Full-Stack',
-      image: '/jordan-corradi.jpg'
+      image: '/jordan-corradi.jpg?v=2'
     }
   ];
 
@@ -57,8 +57,8 @@ const About = () => {
                     <img
                       src={member.image}
                       alt={member.name}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                      onError={(e) => { (e.currentTarget as HTMLImageElement).src = '/anto logo copy.jpg'; }}
+                      className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-500"
+                      onError={(e) => { (e.currentTarget as HTMLImageElement).src = '/anto logo copy.jpg?v=2'; }}
                     />
                   </div>
                   <div className="absolute inset-0 w-32 sm:w-40 md:w-48 lg:w-56 h-32 sm:h-40 md:h-48 lg:h-56 mx-auto rounded-full bg-gradient-to-br from-cyan-500/20 to-blue-500/20 group-hover:from-cyan-500/40 group-hover:to-blue-500/40 transition-all duration-500" />
