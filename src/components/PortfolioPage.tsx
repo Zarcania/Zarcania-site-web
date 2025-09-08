@@ -1,12 +1,30 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Star, Rocket, ExternalLink, Code, Zap, Check, ChevronLeft, ChevronRight, Eye, Heart, Award, TrendingUp } from 'lucide-react';
 
 const PortfolioPage: React.FC = () => {
   const [selectedProject, setSelectedProject] = useState(0);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const heroRef = useRef<HTMLDivElement | null>(null);
+
+  // Lightbox state
+  const [lightbox, setLightbox] = useState<{ open: boolean; projectIndex: number; imageIndex: number }>({
+    open: false,
+    projectIndex: 0,
+    imageIndex: 0,
+  });
+
+  type NavigatorWithTouch = Navigator & { maxTouchPoints?: number; msMaxTouchPoints?: number };
+  const isTouchDevice = typeof window !== 'undefined' && (
+    ('ontouchstart' in window) || (typeof navigator !== 'undefined' && ((navigator as NavigatorWithTouch).maxTouchPoints || 0) > 0)
+  );
+
+  const openLightbox = (projectIndex: number, imageIndex: number) => {
+    setLightbox({ open: true, projectIndex, imageIndex });
+  };
+  const closeLightbox = () => setLightbox((s) => ({ ...s, open: false }));
 
   // Tous les projets (extensible)
-  const currentProjects = [
+  const currentProjects = useMemo(() => ([
     // Projets Réels Zarcania
     {
       id: 1,
@@ -70,7 +88,34 @@ const PortfolioPage: React.FC = () => {
       gradient: "from-cyan-400 to-blue-600",
       color: "cyan"
     },
-  ];
+  ]), []);
+
+  // Prev/next helpers now that projects are defined
+  const lightboxPrev = useCallback(() => {
+    const images = currentProjects[lightbox.projectIndex]?.images || [];
+    if (!images.length) return;
+    setLightbox((s) => ({ ...s, imageIndex: s.imageIndex === 0 ? images.length - 1 : s.imageIndex - 1 }));
+  }, [currentProjects, lightbox.projectIndex]);
+  const lightboxNext = useCallback(() => {
+    const images = currentProjects[lightbox.projectIndex]?.images || [];
+    if (!images.length) return;
+    setLightbox((s) => ({ ...s, imageIndex: s.imageIndex === images.length - 1 ? 0 : s.imageIndex + 1 }));
+  }, [currentProjects, lightbox.projectIndex]);
+
+  // Close/controls on keyboard
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setLightbox((s) => ({ ...s, open: false }));
+        return;
+      }
+      if (!lightbox.open) return;
+      if (e.key === 'ArrowLeft') lightboxPrev();
+      if (e.key === 'ArrowRight') lightboxNext();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [lightbox.open, lightboxPrev, lightboxNext]);
 
   const stats = [
     { number: "50+", label: "Projets réalisés", icon: <Rocket className="w-5 h-5" /> },
@@ -110,6 +155,17 @@ const PortfolioPage: React.FC = () => {
   React.useEffect(() => {
     setCurrentImageIndex(0);
   }, [selectedProject]);
+
+  // Select a project and scroll to hero section
+  const handleSelectAndScroll = (index: number) => {
+    setSelectedProject(index);
+    // Small delay to ensure layout updates then scroll
+    setTimeout(() => {
+      if (heroRef.current) {
+        heroRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 50);
+  };
   
   return (
     <div className="min-h-screen bg-transparent relative overflow-hidden">
@@ -151,7 +207,7 @@ const PortfolioPage: React.FC = () => {
         {/* Portfolio Layout */}
         <div className="mb-16 animate-fadeInUp animate-delay-300">
           {/* Hero Project Section */}
-          <div className="relative mb-12">
+          <div ref={heroRef} className="relative mb-12 scroll-mt-28" id="portfolio-hero">
             <div className="grid lg:grid-cols-2 gap-8 items-center">
               {/* Project Showcase */}
               <div className="relative group">
@@ -162,7 +218,20 @@ const PortfolioPage: React.FC = () => {
                     <img
                       src={currentProjects[selectedProject]?.images[currentImageIndex] || "/restaurant accueil.png"}
                       alt={currentProjects[selectedProject]?.title}
-                      className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 filter group-hover:brightness-110" loading="lazy" decoding="async"
+                      className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 filter group-hover:brightness-110 cursor-zoom-in"
+                      loading="lazy" decoding="async"
+                      onClick={(e) => {
+                        // Desktop: simple click opens
+                        if (!isTouchDevice) {
+                          e.stopPropagation();
+                          openLightbox(selectedProject, currentImageIndex);
+                        }
+                      }}
+                      onDoubleClick={(e) => {
+                        // Mobile: double tap opens
+                        e.stopPropagation();
+                        openLightbox(selectedProject, currentImageIndex);
+                      }}
                       onError={(e) => {
                         const target = e.target as HTMLImageElement;
                         target.src = "/restaurant accueil.png";
@@ -215,9 +284,13 @@ const PortfolioPage: React.FC = () => {
                             {currentImageIndex + 1}/{currentProjects[selectedProject]?.images.length}
                           </div>
                         )}
-                        <div className="w-10 h-10 bg-slate-900/80 backdrop-blur-sm rounded-full flex items-center justify-center text-cyan-400 hover:bg-cyan-500/80 hover:text-white hover:shadow-lg hover:shadow-cyan-500/50 transition-all duration-300 cursor-pointer">
+                        <button
+                          type="button"
+                          onClick={(e) => { e.stopPropagation(); openLightbox(selectedProject, currentImageIndex); }}
+                          className="w-10 h-10 bg-slate-900/80 backdrop-blur-sm rounded-full flex items-center justify-center text-cyan-400 hover:bg-cyan-500/80 hover:text-white hover:shadow-lg hover:shadow-cyan-500/50 transition-all duration-300 cursor-pointer"
+                        >
                           <Eye className="w-5 h-5" />
-                        </div>
+                        </button>
                         <div className="w-10 h-10 bg-slate-900/80 backdrop-blur-sm rounded-full flex items-center justify-center text-blue-400 hover:bg-blue-500/80 hover:text-white hover:shadow-lg hover:shadow-blue-500/50 transition-all duration-300 cursor-pointer">
                           <Heart className="w-5 h-5" />
                         </div>
@@ -291,7 +364,7 @@ const PortfolioPage: React.FC = () => {
                     return (
                       <div
                         key={item.id}
-                        onClick={() => setSelectedProject(index)}
+                        onClick={() => handleSelectAndScroll(index)}
                         className={`group cursor-pointer transition-all duration-500 transform hover:scale-105 ${
                           isSelected 
                             ? `ring-2 ring-cyan-400 shadow-2xl shadow-cyan-500/40` 
@@ -303,7 +376,17 @@ const PortfolioPage: React.FC = () => {
                           <img
                             src={item.images[0] || "/restaurant accueil.png"}
                             alt={item.title}
-                            className="w-full h-full object-cover transition-all duration-500 group-hover:scale-110 filter group-hover:brightness-110" loading="lazy" decoding="async"
+                            className="w-full h-full object-cover transition-all duration-500 group-hover:scale-110 filter group-hover:brightness-110 cursor-zoom-in" loading="lazy" decoding="async"
+                            onClick={(e) => {
+                              if (!isTouchDevice) {
+                                e.stopPropagation();
+                                openLightbox(index, 0);
+                              }
+                            }}
+                            onDoubleClick={(e) => {
+                              e.stopPropagation();
+                              openLightbox(index, 0);
+                            }}
                             onError={(e) => {
                               const target = e.target as HTMLImageElement;
                               target.src = "/restaurant accueil.png";
@@ -365,7 +448,7 @@ const PortfolioPage: React.FC = () => {
                 return (
                   <div
                     key={item.id}
-                    onClick={() => setSelectedProject(index)}
+                    onClick={() => handleSelectAndScroll(index)}
                     className="group cursor-pointer bg-slate-800/60 backdrop-blur-md border border-cyan-500/30 rounded-2xl overflow-hidden hover:border-cyan-400/60 transition-all duration-300 hover:transform hover:scale-105 shadow-xl shadow-slate-900/50 hover:shadow-cyan-500/20"
                   >
                     {/* Project Image */}
@@ -373,7 +456,17 @@ const PortfolioPage: React.FC = () => {
                       <img
                         src={item.images[0]}
                         alt={item.title}
-                        className="w-full h-full object-cover transition-all duration-500 group-hover:scale-110 filter group-hover:brightness-110" loading="lazy" decoding="async"
+                        className="w-full h-full object-cover transition-all duration-500 group-hover:scale-110 filter group-hover:brightness-110 cursor-zoom-in" loading="lazy" decoding="async"
+                        onClick={(e) => {
+                          if (!isTouchDevice) {
+                            e.stopPropagation();
+                            openLightbox(index, 0);
+                          }
+                        }}
+                        onDoubleClick={(e) => {
+                          e.stopPropagation();
+                          openLightbox(index, 0);
+                        }}
                         onError={(e) => {
                           const target = e.target as HTMLImageElement;
                           target.src = "/restaurant accueil.png";
@@ -389,12 +482,16 @@ const PortfolioPage: React.FC = () => {
                       </div>
                       
                       {/* Hover Overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-br from-slate-900/80 via-cyan-900/40 to-slate-900/80 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center">
+                      <button
+                        type="button"
+                        onClick={(e) => { e.stopPropagation(); handleSelectAndScroll(index); }}
+                        className="absolute inset-0 bg-gradient-to-br from-slate-900/80 via-cyan-900/40 to-slate-900/80 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center"
+                      >
                         <div className="text-center">
                           <ExternalLink className="w-8 h-8 text-cyan-400 mx-auto mb-2" />
                           <span className="text-white font-medium">Voir le projet</span>
                         </div>
-                      </div>
+                      </button>
                     </div>
                     
                     {/* Project Info */}
@@ -425,6 +522,46 @@ const PortfolioPage: React.FC = () => {
           </div>
         </div>
       </div>
+
+  {/* Lightbox Modal */}
+  {lightbox.open && (
+    <div
+      className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
+      onClick={closeLightbox}
+      role="dialog" aria-modal="true"
+    >
+      <div className="relative max-w-6xl w-full" onClick={(e) => e.stopPropagation()}>
+        <img
+          src={currentProjects[lightbox.projectIndex]?.images[lightbox.imageIndex]}
+          alt={currentProjects[lightbox.projectIndex]?.title}
+          className="w-full max-h-[80vh] object-contain rounded-lg shadow-2xl"
+        />
+        {/* Controls */}
+        <button
+          onClick={closeLightbox}
+          className="absolute top-2 right-2 text-white bg-slate-900/70 hover:bg-slate-800 rounded-full px-3 py-1"
+        >
+          Fermer
+        </button>
+        {currentProjects[lightbox.projectIndex]?.images.length > 1 && (
+          <>
+            <button
+              onClick={(e) => { e.stopPropagation(); lightboxPrev(); }}
+              className="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-slate-900/80 rounded-full flex items-center justify-center text-white hover:bg-cyan-500/80"
+            >
+              <ChevronLeft className="w-5 h-5" />
+            </button>
+            <button
+              onClick={(e) => { e.stopPropagation(); lightboxNext(); }}
+              className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-slate-900/80 rounded-full flex items-center justify-center text-white hover:bg-cyan-500/80"
+            >
+              <ChevronRight className="w-5 h-5" />
+            </button>
+          </>
+        )}
+      </div>
+    </div>
+  )}
 
   {/* Footer rendu par App */}
     </div>
