@@ -1,4 +1,3 @@
-import React from 'react';
 import { Award, ThumbsUp, CheckCircle } from 'lucide-react';
 import GoogleReviews from './GoogleReviews';
 
@@ -50,20 +49,7 @@ const Testimonials = () => {
 
   {/* Grille de témoignages statiques supprimée */}
 
-        {/* Call to action */}
-        <div className="text-center mt-12 relative z-10 animate-fadeInUp animate-delay-400">
-          <div className="bg-gradient-to-br from-slate-800/80 via-cyan-900/20 to-slate-800/80 backdrop-blur-md border border-cyan-500/40 rounded-2xl p-8 max-w-2xl mx-auto hover:border-cyan-400/60 transition-all duration-300 shadow-2xl shadow-slate-900/50">
-            <h3 className="text-2xl font-bold font-futuristic text-white mb-4 tracking-wide">
-              Rejoignez nos clients satisfaits
-            </h3>
-            <p className="text-gray-300 font-modern mb-6 leading-relaxed">
-              Découvrez pourquoi plus de 50 entreprises nous font confiance pour leur présence digitale.
-            </p>
-            <button onClick={() => window.dispatchEvent(new Event('navigate:portfolio'))} className="px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-semibold rounded-xl hover:from-cyan-400 hover:to-blue-400 hover:shadow-lg hover:shadow-cyan-500/30 transition-all duration-300 font-modern">
-              Voir nos réalisations
-            </button>
-          </div>
-        </div>
+  {/* CTA supprimé sur demande */}
       </div>
     </section>
   );

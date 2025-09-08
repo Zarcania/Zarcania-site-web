@@ -92,16 +92,16 @@ const Footer: React.FC<FooterProps> = ({
 
           {/* Informations essentielles */}
           <div className="text-center mb-6">
-            <div className="flex items-center justify-center space-x-3 mb-4">
+            <button onClick={() => handleNavigation()} className="flex items-center justify-center space-x-3 mb-4 group">
               <img
                 src="/anto logo copy.jpg" 
                 alt="Zarcania - Agence Web Professionnelle Paris" 
                 className="w-8 h-8 rounded-full object-cover" loading="lazy" decoding="async"
               />
               <div className="text-white">
-                <h3 className="text-lg font-bold font-ultra-futuristic tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-white via-blue-200 to-blue-400">ZARCANIA</h3>
+                <h3 className="text-lg font-bold font-ultra-futuristic tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-white via-blue-200 to-blue-400 group-hover:from-cyan-200 group-hover:to-blue-300 transition-colors">ZARCANIA</h3>
               </div>
-            </div>
+            </button>
             
             <p className="text-gray-400 text-sm max-w-lg mx-auto font-modern mb-4 leading-relaxed">
               Agence web professionnelle Paris • Sites express 7 jours • Design moderne • SEO optimisé
