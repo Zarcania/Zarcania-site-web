@@ -28,11 +28,12 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/portfolio" element={<PortfolioPage />} />
         <Route path="/formules" element={<FormulesPage />} />
-        <Route path="/contact" element={<ContactPage />} />
-        <Route path="/appointment" element={<AppointmentPage />} />
+  <Route path="/contact" element={<ContactPage />} />
+  <Route path="/rendez-vous" element={<AppointmentPage />} />
         <Route path="/mentions-legales" element={<MentionsLegalesPage />} />
         {/* aliases */}
-        <Route path="/rdv" element={<AppointmentPage />} />
+  <Route path="/rdv" element={<AppointmentPage />} />
+  <Route path="/appointment" element={<AppointmentPage />} />
       </Route>
     </Routes>
   );

@@ -17,7 +17,7 @@ const Layout = () => {
     : path.startsWith('/portfolio') ? 'portfolio'
     : path.startsWith('/formules') ? 'formules'
     : path.startsWith('/contact') ? 'contact'
-    : path.startsWith('/appointment') || path.startsWith('/rdv') ? 'appointment'
+  : path.startsWith('/rendez-vous') || path.startsWith('/appointment') || path.startsWith('/rdv') ? 'appointment'
     : path.startsWith('/mentions-legales') ? 'mentions-legales'
     : 'home';
 
@@ -26,7 +26,7 @@ const Layout = () => {
   const onPortfolioClick = () => { navigate('/portfolio'); setTimeout(scrollTop, 50); };
   const onFormulesClick = () => { navigate('/formules'); setTimeout(scrollTop, 50); };
   const onContactClick = () => { navigate('/contact'); setTimeout(scrollTop, 50); };
-  const onAppointmentClick = () => { navigate('/appointment'); setTimeout(scrollTop, 50); };
+  const onAppointmentClick = () => { navigate('/rendez-vous'); setTimeout(scrollTop, 50); };
   const onNavigateHome = (section?: string) => {
     if (path !== '/') navigate('/');
     setTimeout(() => {
@@ -64,6 +64,29 @@ const Layout = () => {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [path]);
+
+  // SEO: titles & meta descriptions par page (léger, sans lib)
+  useEffect(() => {
+    const titles: Record<PageKey, string> = {
+      home: 'Zarcania – Agence web à Paris | Sites en 7 jours',
+      portfolio: 'Portfolio – Réalisations Zarcania',
+      formules: 'Formules – Création de sites web',
+      contact: 'Contact – Zarcania',
+      appointment: 'Rendez-vous – Devis et accompagnement',
+      'mentions-legales': 'Mentions légales – Zarcania'
+    };
+    const descriptions: Record<PageKey, string> = {
+      home: 'Création de sites vitrines et e‑commerce en 7 jours. Design moderne, SEO optimisé, devis gratuit.',
+      portfolio: 'Découvrez des sites web conçus par Zarcania : vitrines, e‑commerce et projets sur mesure.',
+      formules: 'Nos formules de création de site web : vitrine, avancé, e‑commerce et développement sur mesure.',
+      contact: 'Contactez Zarcania à Paris : email, téléphone et formulaire pour votre projet web.',
+      appointment: 'Prenez rendez-vous pour parler de votre site : accompagnement et devis gratuit.',
+      'mentions-legales': 'Informations légales du site Zarcania.'
+    };
+    document.title = titles[currentPage];
+    const meta = document.querySelector('meta[name="description"]');
+    if (meta) meta.setAttribute('content', descriptions[currentPage]);
+  }, [currentPage]);
 
   return (
     <div className="min-h-screen relative overflow-x-hidden">

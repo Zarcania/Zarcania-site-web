@@ -25,7 +25,7 @@ const About = () => {
         {/* Header */}
         <div className="text-center margin-responsive relative z-10 animate-fadeInUp mb-12 md:mb-16 lg:mb-20">
           <h2 className="heading-responsive font-bold font-futuristic text-white margin-responsive tracking-wide">
-              À propos de nous
+              À propos
           </h2>
           <div className="text-responsive-base text-gray-300 max-w-4xl mx-auto font-modern space-y-3 sm:space-y-4 leading-relaxed">
             <p>
