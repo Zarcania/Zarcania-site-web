@@ -130,15 +130,17 @@ const Header: React.FC<HeaderProps> = ({ onPortfolioClick, onFormulesClick, onCo
         {/* Mobile Menu */}
         {isMenuOpen && (
           <nav className="md:hidden mt-4 pb-4 border-t border-cyan-500/20 bg-slate-900/95 backdrop-blur-md animate-fadeInUp">
-            {menuItems.map((item) => (
-              <button
-                key={item.name}
-                onClick={() => handleMenuClick(item.section, item.isPortfolio, item.isFormules, item.isContact, item.isAppointment)}
-                className="block w-full text-left py-3 px-4 text-white hover:text-cyan-300 hover:bg-cyan-500/10 transition-all duration-300 font-medium"
-              >
-                {item.name}
-              </button>
-            ))}
+            <div className="flex flex-col items-end">
+              {menuItems.map((item) => (
+                <button
+                  key={item.name}
+                  onClick={() => handleMenuClick(item.section, item.isPortfolio, item.isFormules, item.isContact, item.isAppointment)}
+                  className="block w-full text-right py-3 pr-4 pl-4 text-white hover:text-cyan-300 hover:bg-cyan-500/10 transition-all duration-300 font-medium"
+                >
+                  {item.name}
+                </button>
+              ))}
+            </div>
           </nav>
         )}
       </div>

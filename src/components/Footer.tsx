@@ -49,10 +49,10 @@ const Footer: React.FC<FooterProps> = ({
         <div className="w-48 sm:w-72 md:w-96 h-24 sm:h-36 md:h-48 bg-gradient-to-t from-cyan-500/20 to-transparent rounded-t-full blur-xl" />
       </div>
       
-      <div className="relative z-10 container-responsive py-6 sm:py-8">
+    <div className="relative z-10 container-responsive py-4 sm:py-6">
         <div className="max-w-6xl mx-auto">
           {/* Navigation compacte */}
-          <nav className="flex flex-col md:flex-row md:flex-wrap md:justify-center gap-4 md:gap-6 mb-6 text-sm" role="navigation" aria-label="Menu footer">
+      <nav className="flex flex-col md:flex-row md:flex-wrap md:justify-center gap-3 md:gap-5 mb-4 text-sm" role="navigation" aria-label="Menu footer">
             <button 
               onClick={() => handleNavigation('', false, true)}
               className="text-gray-300 hover:text-cyan-300 transition-colors font-modern"
@@ -91,7 +91,7 @@ const Footer: React.FC<FooterProps> = ({
           </nav>
 
           {/* Informations essentielles */}
-          <div className="text-center mb-6">
+          <div className="text-center mb-4">
             <button onClick={() => handleNavigation()} className="flex items-center justify-center space-x-3 mb-4 group mx-auto">
               <img
                 src="/anto logo copy.jpg" 
@@ -103,12 +103,12 @@ const Footer: React.FC<FooterProps> = ({
               </div>
             </button>
             
-            <p className="text-gray-400 text-sm max-w-lg mx-auto font-modern mb-4 leading-relaxed">
+            <p className="text-gray-400 text-sm max-w-lg mx-auto font-modern mb-3 leading-relaxed">
               Agence web professionnelle Paris • Sites express 7 jours • Design moderne • SEO optimisé
             </p>
             
             {/* Contact rapide */}
-            <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-2 md:gap-4 text-sm text-gray-400 mb-4">
+            <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-2 md:gap-3 text-sm text-gray-400 mb-3">
               <div className="flex items-center justify-center gap-4">
                 <span>contact@zarcania.com</span>
                 <span className="hidden sm:inline">•</span>
@@ -122,7 +122,7 @@ const Footer: React.FC<FooterProps> = ({
           </div>
           
           {/* Copyright compact */}
-          <div className="text-center text-gray-500 text-xs border-t border-cyan-500/20 pt-4">
+          <div className="text-center text-gray-500 text-xs border-t border-cyan-500/20 pt-3">
             <div className="flex flex-col sm:flex-row items-center justify-center gap-2">
               <span>&copy; 2025 Zarcania - Agence Web Paris. Tous droits réservés.</span>
               <div className="flex items-center gap-2">
