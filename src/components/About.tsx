@@ -6,12 +6,12 @@ const About = () => {
     {
       name: 'Anthony Corradi',
       role: 'Fondateur de ZA',
-      image: '/anto logo copy.jpg'
+      image: '/anthony-corradi.jpg'
     },
     {
-      name: 'Zayex',
+      name: 'Jordan Corradi',
       role: 'Développeur Full-Stack',
-      image: 'https://images.pexels.com/photos/3756679/pexels-photo-3756679.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop'
+      image: '/jordan-corradi.jpg'
     }
   ];
 
@@ -58,6 +58,7 @@ const About = () => {
                       src={member.image}
                       alt={member.name}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      onError={(e) => { (e.currentTarget as HTMLImageElement).src = '/anto logo copy.jpg'; }}
                     />
                   </div>
                   <div className="absolute inset-0 w-32 sm:w-40 md:w-48 lg:w-56 h-32 sm:h-40 md:h-48 lg:h-56 mx-auto rounded-full bg-gradient-to-br from-cyan-500/20 to-blue-500/20 group-hover:from-cyan-500/40 group-hover:to-blue-500/40 transition-all duration-500" />
@@ -77,7 +78,7 @@ const About = () => {
                 
                 <div className="space-y-2 sm:space-y-3">
                   <h4 className="text-xl sm:text-2xl md:text-3xl font-bold text-white font-futuristic tracking-wide group-hover:text-cyan-300 transition-colors duration-300">
-                    {index === 1 ? "Jordan Corradi" : member.name}
+                    {member.name}
                   </h4>
                   <p className="text-cyan-300 text-base sm:text-lg md:text-xl font-modern group-hover:text-cyan-200 transition-colors duration-300">
                     {member.role}
