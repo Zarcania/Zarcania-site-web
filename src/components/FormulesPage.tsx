@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Check, Rocket, Star, Crown, ArrowRight, Calendar, Shield, Headphones, Globe, Palette, Code, Search, Users, BarChart3, Smartphone } from 'lucide-react';
 
 const FormulesPage: React.FC = () => {
@@ -143,6 +143,93 @@ const FormulesPage: React.FC = () => {
     window.dispatchEvent(new Event('navigate:appointment'));
   };
 
+  // ===== Process animation (fix) =====
+  const processRef = useRef<HTMLDivElement | null>(null);
+
+  const resetProcessAnimation = () => {
+    const count = processSteps.length;
+    for (let i = 1; i <= count; i++) {
+      const line = document.querySelector<HTMLElement>(`.step-line-${i}`);
+      const circle = document.querySelector<HTMLElement>(`.step-circle-${i}`);
+      const glow = document.querySelector<HTMLElement>(`.step-glow-${i}`);
+      const pulse = document.querySelector<HTMLElement>(`.step-pulse-${i}`);
+      const text = document.querySelector<HTMLElement>(`.step-text-${i}`);
+
+      if (line) line.style.height = '0px';
+      if (glow) glow.style.opacity = '0';
+      if (pulse) pulse.style.opacity = '0';
+      if (circle) {
+        circle.style.transform = 'scale(1)';
+        circle.style.opacity = '1';
+        circle.style.boxShadow = 'none';
+      }
+      if (text) {
+        text.style.opacity = '0';
+        text.style.transform = 'translateY(8px)';
+      }
+    }
+  };
+
+  const runProcessAnimation = () => {
+    const count = processSteps.length;
+    const stepDelay = 350; // ms between steps
+    for (let i = 1; i <= count; i++) {
+      setTimeout(() => {
+        const line = document.querySelector<HTMLElement>(`.step-line-${i}`);
+        const circle = document.querySelector<HTMLElement>(`.step-circle-${i}`);
+        const glow = document.querySelector<HTMLElement>(`.step-glow-${i}`);
+        const pulse = document.querySelector<HTMLElement>(`.step-pulse-${i}`);
+        const text = document.querySelector<HTMLElement>(`.step-text-${i}`);
+
+        if (line) line.style.height = '100%';
+        if (glow) glow.style.opacity = '1';
+        if (circle) {
+          circle.style.transform = 'scale(1.05)';
+          circle.style.boxShadow = '0 10px 30px rgba(34,211,238,0.25)'; // cyan glow
+        }
+        if (text) {
+          text.style.opacity = '1';
+          text.style.transform = 'translateY(0)';
+        }
+        if (pulse) {
+          pulse.style.opacity = '1';
+          setTimeout(() => {
+            if (pulse) pulse.style.opacity = '0';
+          }, 600);
+        }
+      }, (i - 1) * stepDelay);
+    }
+  };
+
+  useEffect(() => {
+    // Ensure initial reset
+    resetProcessAnimation();
+
+    // Animate when the block enters the viewport
+    const el = processRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            // Small delay for smoother UX
+            setTimeout(() => {
+              resetProcessAnimation();
+              runProcessAnimation();
+            }, 150);
+            observer.disconnect(); // run once
+          }
+        });
+      },
+      { root: null, threshold: 0.3 }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   type Color = 'cyan' | 'blue' | 'slate';
   const getColorClasses = (color: Color) => {
     const colors = {
@@ -236,7 +323,7 @@ const FormulesPage: React.FC = () => {
                 </div>
 
                 {/* Processus */}
-                <div className="bg-slate-800/60 backdrop-blur-md border border-cyan-500/30 rounded-2xl p-6">
+                <div ref={processRef} className="bg-slate-800/60 backdrop-blur-md border border-cyan-500/30 rounded-2xl p-6">
                   <h3 className="text-xl font-bold font-futuristic text-white mb-6 tracking-wide">
                     Notre processus
                   </h3>
@@ -254,7 +341,7 @@ const FormulesPage: React.FC = () => {
                           {/* Cercle animé */}
                           <div className={`relative w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0 step-circle-${index + 1} transition-all duration-800 ease-out`}>
                             <div className="absolute inset-0 rounded-full bg-gradient-to-br from-slate-600 to-slate-700" />
-                            <div className="absolute inset-0 rounded-full bg-gradient-to-br from-cyan-500 to-blue-500 opacity-0 step-glow-${index + 1} transition-opacity duration-800" />
+                            <div className={`absolute inset-0 rounded-full bg-gradient-to-br from-cyan-500 to-blue-500 opacity-0 step-glow-${index + 1} transition-opacity duration-800`} />
                             <span className="relative z-10">{step.step}</span>
                             
                             {/* Effet de pulsation */}
@@ -279,13 +366,8 @@ const FormulesPage: React.FC = () => {
                     <div className="text-center pt-4">
                       <button 
                         onClick={() => {
-                          // Relancer l'animation
-                          const elements = document.querySelectorAll('[class*="step-"]');
-                          elements.forEach(el => {
-                            el.classList.remove('animate-step-sequence');
-                            void (el as HTMLElement).offsetWidth; // Force reflow
-                            el.classList.add('animate-step-sequence');
-                          });
+                          resetProcessAnimation();
+                          setTimeout(runProcessAnimation, 50);
                         }}
                         className="px-3 py-1 bg-slate-700/60 border border-cyan-500/30 text-cyan-300 font-medium font-modern rounded-lg hover:bg-cyan-500/20 hover:border-cyan-400/50 transition-all duration-300 text-xs"
                       >
