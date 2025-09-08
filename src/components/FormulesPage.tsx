@@ -172,7 +172,7 @@ const FormulesPage: React.FC = () => {
 
   const runProcessAnimation = () => {
     const count = processSteps.length;
-    const stepDelay = 350; // ms between steps
+    const stepDelay = 1100; // slower pacing between steps for readability
     for (let i = 1; i <= count; i++) {
       setTimeout(() => {
         const line = document.querySelector<HTMLElement>(`.step-line-${i}`);
@@ -181,16 +181,19 @@ const FormulesPage: React.FC = () => {
         const pulse = document.querySelector<HTMLElement>(`.step-pulse-${i}`);
         const text = document.querySelector<HTMLElement>(`.step-text-${i}`);
 
-        if (line) line.style.height = '100%';
+        if (line) line.style.height = '100%'; // extend connector before showing text
         if (glow) glow.style.opacity = '1';
         if (circle) {
-          circle.style.transform = 'scale(1.05)';
+          circle.style.transform = 'scale(1.08)';
           circle.style.boxShadow = '0 10px 30px rgba(34,211,238,0.25)'; // cyan glow
         }
-        if (text) {
-          text.style.opacity = '1';
-          text.style.transform = 'translateY(0)';
-        }
+        // reveal text slightly after the circle highlight
+        setTimeout(() => {
+          if (text) {
+            text.style.opacity = '1';
+            text.style.transform = 'translateY(0)';
+          }
+        }, 350);
         if (pulse) {
           pulse.style.opacity = '1';
           setTimeout(() => {
@@ -213,16 +216,18 @@ const FormulesPage: React.FC = () => {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            // Small delay for smoother UX
+            // Slight delay, then (re)run each time it enters viewport
             setTimeout(() => {
               resetProcessAnimation();
               runProcessAnimation();
             }, 150);
-            observer.disconnect(); // run once
+          } else {
+            // Reset when leaving so it can replay when coming back
+            resetProcessAnimation();
           }
         });
       },
-      { root: null, threshold: 0.3 }
+      { root: null, threshold: 0.35 }
     );
 
     observer.observe(el);
