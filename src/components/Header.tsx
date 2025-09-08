@@ -89,22 +89,22 @@ const Header: React.FC<HeaderProps> = ({ onPortfolioClick, onFormulesClick, onCo
       isScrolled ? 'bg-slate-900/95 backdrop-blur-md shadow-lg shadow-cyan-500/10' : 'bg-transparent'
     }`}>
       <div className="container-responsive py-3 sm:py-4">
-        <div className="relative flex items-center">
-          {/* Logo centré */}
-          <div className="absolute left-1/2 -translate-x-1/2 flex items-center space-x-2 sm:space-x-3 cursor-pointer mobile-touch-target" onClick={handleLogoClick} role="banner">
+        <div className="flex items-center justify-between">
+          {/* Logo à gauche */}
+          <div className="flex items-center space-x-2 sm:space-x-3 cursor-pointer mobile-touch-target" onClick={handleLogoClick} role="banner">
             <img 
               src="/anto logo copy.jpg" 
-              alt="Zarcania - logo" 
+              alt="Zarcania Logo" 
               className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full object-cover"
-              loading="eager" decoding="async" fetchPriority="high"
+              loading="lazy" decoding="async"
             />
             <div className="text-white">
               <h1 className="text-sm sm:text-lg md:text-xl font-bold font-ultra-futuristic tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-white via-blue-200 to-blue-400 animate-pulse" aria-label="Zarcania - Agence Web">ZARCANIA</h1>
             </div>
           </div>
 
-          {/* Menu desktop aligné à droite */}
-          <nav className="hidden md:flex items-center ml-auto space-x-8" role="navigation" aria-label="Menu principal">
+          {/* Menu desktop à droite */}
+          <nav className="hidden md:flex items-center space-x-8" role="navigation" aria-label="Menu principal">
             {menuItems.map((item) => (
               <button
                 key={item.name}
@@ -117,10 +117,10 @@ const Header: React.FC<HeaderProps> = ({ onPortfolioClick, onFormulesClick, onCo
             ))}
           </nav>
 
-          {/* Bouton menu mobile à droite */}
+          {/* Bouton menu mobile */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="md:hidden text-white hover:text-cyan-300 transition-colors p-2 ml-auto"
+            className="md:hidden text-white hover:text-cyan-300 transition-colors p-2"
             aria-label={isMenuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
           >
             {isMenuOpen ? <X size={24} /> : <Menu size={24} />}

@@ -92,7 +92,7 @@ const Footer: React.FC<FooterProps> = ({
 
           {/* Informations essentielles */}
           <div className="text-center mb-6">
-            <button onClick={() => handleNavigation()} className="flex items-center justify-center space-x-3 mb-4 group">
+            <button onClick={() => handleNavigation()} className="flex items-center justify-center space-x-3 mb-4 group mx-auto">
               <img
                 src="/anto logo copy.jpg" 
                 alt="Zarcania - Agence Web Professionnelle Paris" 
