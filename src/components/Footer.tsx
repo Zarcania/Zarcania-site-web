@@ -52,38 +52,38 @@ const Footer: React.FC<FooterProps> = ({
     <div className="relative z-10 container-responsive py-4 sm:py-6">
         <div className="max-w-6xl mx-auto">
           {/* Navigation compacte */}
-      <nav className="flex flex-col md:flex-row md:flex-wrap md:justify-center gap-3 md:gap-5 mb-4 text-sm" role="navigation" aria-label="Menu footer">
+      <nav className="flex flex-col md:flex-row md:flex-wrap md:justify-center gap-1.5 md:gap-4 mb-3 text-sm" role="navigation" aria-label="Menu footer">
             <button 
-              onClick={() => handleNavigation('', false, true)}
-              className="text-gray-300 hover:text-cyan-300 transition-colors font-modern"
+        onClick={() => handleNavigation('', false, true)}
+        className="text-gray-300 hover:text-cyan-300 transition-colors font-modern p-0 leading-tight"
               aria-label="Voir nos formules"
             >
               Nos Formules
             </button>
             <button 
-              onClick={() => handleNavigation('', true)}
-              className="text-gray-300 hover:text-cyan-300 transition-colors font-modern"
+        onClick={() => handleNavigation('', true)}
+        className="text-gray-300 hover:text-cyan-300 transition-colors font-modern p-0 leading-tight"
               aria-label="Voir notre portfolio"
             >
               Portfolio
             </button>
             <button 
-              onClick={() => handleNavigation('about')}
-              className="text-gray-300 hover:text-cyan-300 transition-colors font-modern"
+        onClick={() => handleNavigation('about')}
+        className="text-gray-300 hover:text-cyan-300 transition-colors font-modern p-0 leading-tight"
               aria-label="En savoir plus sur nous"
             >
               À propos
             </button>
             <button 
-              onClick={() => handleNavigation('', false, false, true)}
-              className="text-gray-300 hover:text-cyan-300 transition-colors font-modern"
+        onClick={() => handleNavigation('', false, false, true)}
+        className="text-gray-300 hover:text-cyan-300 transition-colors font-modern p-0 leading-tight"
               aria-label="Nous contacter"
             >
               Contact
             </button>
             <button 
-              onClick={() => handleNavigation('', false, false, false, true)}
-              className="text-gray-300 hover:text-cyan-300 transition-colors font-modern"
+        onClick={() => handleNavigation('', false, false, false, true)}
+        className="text-gray-300 hover:text-cyan-300 transition-colors font-modern p-0 leading-tight"
               aria-label="Prendre rendez-vous"
             >
               Rendez-vous
