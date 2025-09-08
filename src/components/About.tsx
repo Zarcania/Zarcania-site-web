@@ -1,23 +1,64 @@
 import LogoLoop from './LogoLoop';
 import { SiReact, SiJavascript, SiTypescript, SiTailwindcss, SiNodedotjs, SiMongodb, SiGit, SiFigma } from 'react-icons/si';
 
+// Helper to build progressive fallbacks
+const buildSrcSet = (primary: string, fallbacks: string[]) => {
+  return { primary, fallbacks };
+};
+
+const teamImages = {
+  anthony: buildSrcSet('/team-anthony.jpg', [
+    '/anthony-corradi.jpg',
+    '/WhatsApp Image 2025-09-04 à 22.54.53_7ef95f7c.jpg',
+    '/anto logo copy.jpg'
+  ]),
+  jordan: buildSrcSet('/team-jordan.jpg', [
+    '/WhatsApp Image 2025-09-04 à 23.03.14_3ef453ca.jpg',
+    '/anto logo copy.jpg'
+  ])
+};
+
 const About = () => {
   const team = [
     {
+      key: 'anthony',
       name: 'Anthony Corradi',
       role: 'Fondateur de ZA',
-      image: '/team-anthony.jpg'
+      description: "Passionné par l'innovation web et l'expérience utilisateur. Expert en développement moderne.",
+      skills: ['React', 'Node.js', 'Design UX']
     },
     {
+      key: 'jordan',
       name: 'Jordan Corradi',
       role: 'Développeur Full-Stack',
-      image: '/team-jordan.jpg'
+      description: 'Spécialiste du développement full-stack avec une expertise en technologies modernes.',
+      skills: ['JavaScript', 'Python', 'DevOps']
     }
   ];
 
+  const handleImgError = (e: React.SyntheticEvent<HTMLImageElement>, memberKey: string) => {
+    const data = teamImages[memberKey as 'anthony' | 'jordan'];
+    if (!data) return;
+    const current = e.currentTarget.getAttribute('data-fallback-index');
+    const idx = current ? parseInt(current, 10) : 0;
+    if (idx < data.fallbacks.length) {
+      e.currentTarget.src = data.fallbacks[idx];
+      e.currentTarget.setAttribute('data-fallback-index', String(idx + 1));
+    } else {
+      // final: hide broken image container content text placeholder
+      e.currentTarget.style.display = 'none';
+      const parent = e.currentTarget.parentElement;
+      if (parent && parent.querySelector('.img-placeholder') === null) {
+        const span = document.createElement('span');
+        span.className = 'img-placeholder text-cyan-300 text-xs';
+        span.textContent = 'Image indisponible';
+        parent.appendChild(span);
+      }
+    }
+  };
+
   return (
     <section id="about" className="py-8 sm:py-12 md:py-16 bg-transparent relative">
-      {/* Overlay subtil pour la lisibilité */}
       <div className="absolute inset-0 bg-gradient-to-br from-slate-800/40 via-blue-900/20 to-slate-900/40" />
       <div className="container-responsive">
         {/* Header */}
@@ -44,72 +85,92 @@ const About = () => {
               Notre Équipe
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 sm:gap-12 md:gap-16 max-w-4xl mx-auto">
-            {team.map((member, index) => (
-              <div
-                key={index}
-                className="text-center group transform hover:scale-105 transition-all duration-500 animate-fadeInUp"
-                style={{ animationDelay: `${index * 0.3}s` }}
-              >
-                <div className="relative mb-6 sm:mb-8 md:mb-10">
-                  <div className="w-32 sm:w-40 md:w-48 lg:w-56 h-32 sm:h-40 md:h-48 lg:h-56 mx-auto rounded-full overflow-hidden border-4 sm:border-6 md:border-8 border-cyan-400/50 group-hover:border-cyan-400 group-hover:shadow-2xl group-hover:shadow-cyan-500/50 transition-all duration-500 animate-pulse-glow bg-slate-800/30">
-                    <img
-                      src={member.image}
-                      alt={member.name}
-                      className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-500"
-                      loading="lazy"
-                      onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
-                    />
+            {team.map((member, index) => {
+              const imgSet = teamImages[member.key as 'anthony' | 'jordan'];
+              return (
+                <div
+                  key={member.key}
+                  className="text-center group transform hover:scale-105 transition-all duration-500 animate-fadeInUp"
+                  style={{ animationDelay: `${index * 0.25}s` }}
+                >
+                  <div className="relative mb-6 sm:mb-8 md:mb-10">
+                    <div className="w-32 sm:w-40 md:w-48 lg:w-56 h-32 sm:h-40 md:h-48 lg:h-56 mx-auto rounded-full overflow-hidden border-4 sm:border-6 md:border-8 border-cyan-400/50 group-hover:border-cyan-400 group-hover:shadow-2xl group-hover:shadow-cyan-500/50 transition-all duration-500 animate-pulse-glow bg-slate-800/30">
+                      <img
+                        src={imgSet.primary}
+                        alt={member.name}
+                        className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-500"
+                        loading="lazy"
+                        data-fallback-index={0}
+                        onError={(e) => handleImgError(e, member.key)}
+                      />
+                    </div>
+                    <div className="absolute inset-0 pointer-events-none rounded-full" />
+                  </div>
+                  <div className="space-y-2 sm:space-y-3">
+                    <h4 className="text-xl sm:text-2xl md:text-3xl font-bold text-white font-futuristic tracking-wide group-hover:text-cyan-300 transition-colors duration-300">
+                      {member.name}
+                    </h4>
+                    <p className="text-cyan-300 text-base sm:text-lg md:text-xl font-modern group-hover:text-cyan-200 transition-colors duration-300">
+                      {member.role}
+                    </p>
+                    <div className="mt-4 opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0">
+                      <p className="text-gray-400 text-sm sm:text-base font-modern leading-relaxed max-w-xs mx-auto">
+                        {member.description}
+                      </p>
+                      <div className="flex flex-wrap justify-center gap-2 mt-4">
+                        {member.skills.map((skill, sIdx) => (
+                          <span
+                            key={skill}
+                            className="px-3 py-1 bg-cyan-500/20 border border-cyan-400/30 rounded-full text-xs font-medium text-cyan-300 animate-fadeInUp"
+                            style={{ animationDelay: `${sIdx * 0.08}s` }}
+                          >
+                            {skill}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <div className="space-y-2 sm:space-y-3">
-                  <h4 className="text-xl sm:text-2xl md:text-3xl font-bold text-white font-futuristic tracking-wide group-hover:text-cyan-300 transition-colors duration-300">
-                    {member.name}
-                  </h4>
-                  <p className="text-cyan-300 text-base sm:text-lg md:text-xl font-modern group-hover:text-cyan-200 transition-colors duration-300">
-                    {member.role}
-                  </p>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
 
-      </div>
-
-      {/* Technologies Section */}
-      <div className="margin-responsive relative z-10 animate-fadeInUp animate-delay-400">
-        <div className="text-center mb-8">
-          <h3 className="heading-responsive-sm font-bold text-white text-center margin-responsive font-futuristic tracking-wide">
-            Technologies que nous maîtrisons
-          </h3>
-          <p className="text-gray-300 font-modern text-sm max-w-2xl mx-auto">
-            Nous utilisons les dernières technologies pour créer des sites web modernes et performants
-          </p>
-        </div>
-        
-        <div className="bg-slate-800/40 backdrop-blur-md border border-cyan-500/20 rounded-2xl p-6 overflow-hidden">
-          <LogoLoop
-            logos={[
-              { node: <SiReact />, title: "React", href: "https://react.dev" },
-              { node: <SiJavascript />, title: "JavaScript", href: "https://developer.mozilla.org/en-US/docs/Web/JavaScript" },
-              { node: <SiTypescript />, title: "TypeScript", href: "https://www.typescriptlang.org" },
-              { node: <SiTailwindcss />, title: "Tailwind CSS", href: "https://tailwindcss.com" },
-              { node: <SiNodedotjs />, title: "Node.js", href: "https://nodejs.org" },
-              { node: <SiMongodb />, title: "MongoDB", href: "https://www.mongodb.com" },
-              { node: <SiGit />, title: "Git", href: "https://git-scm.com" },
-              { node: <SiFigma />, title: "Figma", href: "https://www.figma.com" },
-            ]}
-            speed={60}
-            direction="left"
-            logoHeight={48}
-            gap={60}
-            pauseOnHover
-            scaleOnHover
-            fadeOut
-            fadeOutColor="rgba(15, 23, 42, 1)"
-            ariaLabel="Technologies utilisées par Zarcania"
-            className="tech-logos"
-          />
+        {/* Technologies Section */}
+        <div className="margin-responsive relative z-10 animate-fadeInUp animate-delay-400">
+          <div className="text-center mb-8">
+            <h3 className="heading-responsive-sm font-bold text-white text-center margin-responsive font-futuristic tracking-wide">
+              Technologies que nous maîtrisons
+            </h3>
+            <p className="text-gray-300 font-modern text-sm max-w-2xl mx-auto">
+              Nous utilisons les dernières technologies pour créer des sites web modernes et performants
+            </p>
+          </div>
+          
+          <div className="bg-slate-800/40 backdrop-blur-md border border-cyan-500/20 rounded-2xl p-6 overflow-hidden">
+            <LogoLoop
+              logos={[
+                { node: <SiReact />, title: "React", href: "https://react.dev" },
+                { node: <SiJavascript />, title: "JavaScript", href: "https://developer.mozilla.org/en-US/docs/Web/JavaScript" },
+                { node: <SiTypescript />, title: "TypeScript", href: "https://www.typescriptlang.org" },
+                { node: <SiTailwindcss />, title: "Tailwind CSS", href: "https://tailwindcss.com" },
+                { node: <SiNodedotjs />, title: "Node.js", href: "https://nodejs.org" },
+                { node: <SiMongodb />, title: "MongoDB", href: "https://www.mongodb.com" },
+                { node: <SiGit />, title: "Git", href: "https://git-scm.com" },
+                { node: <SiFigma />, title: "Figma", href: "https://www.figma.com" },
+              ]}
+              speed={60}
+              direction="left"
+              logoHeight={48}
+              gap={60}
+              pauseOnHover
+              scaleOnHover
+              fadeOut
+              fadeOutColor="rgba(15, 23, 42, 1)"
+              ariaLabel="Technologies utilisées par Zarcania"
+              className="tech-logos"
+            />
+          </div>
         </div>
       </div>
     </section>
