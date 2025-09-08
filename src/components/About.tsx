@@ -6,16 +6,14 @@ const About = () => {
     {
       name: 'Anthony Corradi',
       role: 'Fondateur de ZA',
-      image: '/anthony-corradi.jpg?v=2'
+      image: '/team-anthony.jpg'
     },
     {
       name: 'Jordan Corradi',
       role: 'Développeur Full-Stack',
-      image: '/jordan-corradi.jpg?v=2'
+      image: '/team-jordan.jpg'
     }
   ];
-
-  // (contenu non utilisé retiré)
 
   return (
     <section id="about" className="py-8 sm:py-12 md:py-16 bg-transparent relative">
@@ -53,29 +51,16 @@ const About = () => {
                 style={{ animationDelay: `${index * 0.3}s` }}
               >
                 <div className="relative mb-6 sm:mb-8 md:mb-10">
-                  <div className="w-32 sm:w-40 md:w-48 lg:w-56 h-32 sm:h-40 md:h-48 lg:h-56 mx-auto rounded-full overflow-hidden border-4 sm:border-6 md:border-8 border-cyan-400/50 group-hover:border-cyan-400 group-hover:shadow-2xl group-hover:shadow-cyan-500/50 transition-all duration-500 animate-pulse-glow">
+                  <div className="w-32 sm:w-40 md:w-48 lg:w-56 h-32 sm:h-40 md:h-48 lg:h-56 mx-auto rounded-full overflow-hidden border-4 sm:border-6 md:border-8 border-cyan-400/50 group-hover:border-cyan-400 group-hover:shadow-2xl group-hover:shadow-cyan-500/50 transition-all duration-500 animate-pulse-glow bg-slate-800/30">
                     <img
                       src={member.image}
                       alt={member.name}
                       className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-500"
-                      onError={(e) => { (e.currentTarget as HTMLImageElement).src = '/anto logo copy.jpg?v=2'; }}
+                      loading="lazy"
+                      onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
                     />
                   </div>
-                  <div className="absolute inset-0 w-32 sm:w-40 md:w-48 lg:w-56 h-32 sm:h-40 md:h-48 lg:h-56 mx-auto rounded-full bg-gradient-to-br from-cyan-500/20 to-blue-500/20 group-hover:from-cyan-500/40 group-hover:to-blue-500/40 transition-all duration-500" />
-                  
-                  {/* Effet de brillance animé */}
-                  <div className="absolute inset-0 w-32 sm:w-40 md:w-48 lg:w-56 h-32 sm:h-40 md:h-48 lg:h-56 mx-auto rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                    <div className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent via-white/20 to-transparent animate-spin" style={{ animationDuration: '3s' }} />
-                  </div>
-                  
-                  {/* Badge de statut */}
-                  <div className="absolute bottom-2 right-1/2 transform translate-x-8 sm:translate-x-12 md:translate-x-16 lg:translate-x-20">
-                    <div className="w-6 h-6 sm:w-8 sm:h-8 bg-green-500 rounded-full border-2 sm:border-3 border-slate-800 flex items-center justify-center animate-pulse">
-                      <div className="w-2 h-2 sm:w-3 sm:h-3 bg-white rounded-full" />
-                    </div>
-                  </div>
                 </div>
-                
                 <div className="space-y-2 sm:space-y-3">
                   <h4 className="text-xl sm:text-2xl md:text-3xl font-bold text-white font-futuristic tracking-wide group-hover:text-cyan-300 transition-colors duration-300">
                     {member.name}
@@ -83,32 +68,6 @@ const About = () => {
                   <p className="text-cyan-300 text-base sm:text-lg md:text-xl font-modern group-hover:text-cyan-200 transition-colors duration-300">
                     {member.role}
                   </p>
-                  
-                  {/* Description supplémentaire */}
-                  <div className="mt-4 opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0">
-                    <p className="text-gray-400 text-sm sm:text-base font-modern leading-relaxed max-w-xs mx-auto">
-                      {index === 0 
-                        ? "Passionné par l'innovation web et l'expérience utilisateur. Expert en développement moderne."
-                        : "Spécialiste du développement full-stack avec une expertise en technologies modernes."
-                      }
-                    </p>
-                    
-                    {/* Compétences */}
-                    <div className="flex flex-wrap justify-center gap-2 mt-4">
-                      {(index === 0 
-                        ? ['React', 'Node.js', 'Design UX']
-                        : ['JavaScript', 'Python', 'DevOps']
-                      ).map((skill, skillIndex) => (
-                        <span 
-                          key={skillIndex}
-                          className="px-3 py-1 bg-cyan-500/20 border border-cyan-400/30 rounded-full text-xs font-medium text-cyan-300 animate-fadeInUp"
-                          style={{ animationDelay: `${skillIndex * 0.1}s` }}
-                        >
-                          {skill}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
                 </div>
               </div>
             ))}
