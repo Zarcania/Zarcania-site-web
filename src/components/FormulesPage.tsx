@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { Check, Rocket, Star, Crown, ArrowRight, Calendar, Shield, Headphones, Globe, Palette, Code, Search, Users, BarChart3, Smartphone } from 'lucide-react';
 
 const FormulesPage: React.FC = () => {
@@ -143,10 +143,17 @@ const FormulesPage: React.FC = () => {
     window.dispatchEvent(new Event('navigate:appointment'));
   };
 
-  // ===== Process animation (fix) =====
+  // ===== Process animation (stabilized) =====
   const processRef = useRef<HTMLDivElement | null>(null);
+  const hasAnimated = useRef(false); // évite replays involontaires au scroll
+  const timeoutsRef = useRef<number[]>([]); // stocker les timeouts pour clean
 
-  const resetProcessAnimation = () => {
+  const resetProcessAnimation = useCallback(() => {
+    // Clear pending timeouts
+    if (timeoutsRef.current.length) {
+      timeoutsRef.current.forEach(id => clearTimeout(id));
+      timeoutsRef.current = [];
+    }
     const count = processSteps.length;
     for (let i = 1; i <= count; i++) {
       const line = document.querySelector<HTMLElement>(`.step-line-${i}`);
@@ -168,13 +175,13 @@ const FormulesPage: React.FC = () => {
         text.style.transform = 'translateY(8px)';
       }
     }
-  };
+  }, [processSteps.length]);
 
-  const runProcessAnimation = () => {
+  const runProcessAnimation = useCallback(() => {
     const count = processSteps.length;
     const stepDelay = 1100; // slower pacing between steps for readability
     for (let i = 1; i <= count; i++) {
-      setTimeout(() => {
+      const id = window.setTimeout(() => {
         const line = document.querySelector<HTMLElement>(`.step-line-${i}`);
         const circle = document.querySelector<HTMLElement>(`.step-circle-${i}`);
         const glow = document.querySelector<HTMLElement>(`.step-glow-${i}`);
@@ -188,52 +195,54 @@ const FormulesPage: React.FC = () => {
           circle.style.boxShadow = '0 10px 30px rgba(34,211,238,0.25)'; // cyan glow
         }
         // reveal text slightly after the circle highlight
-        setTimeout(() => {
+        const textId = window.setTimeout(() => {
           if (text) {
             text.style.opacity = '1';
             text.style.transform = 'translateY(0)';
           }
         }, 350);
+        timeoutsRef.current.push(textId);
         if (pulse) {
           pulse.style.opacity = '1';
-          setTimeout(() => {
+          const pulseId = window.setTimeout(() => {
             if (pulse) pulse.style.opacity = '0';
           }, 600);
+          timeoutsRef.current.push(pulseId);
         }
       }, (i - 1) * stepDelay);
+      timeoutsRef.current.push(id);
     }
-  };
+  }, [processSteps.length]);
 
   useEffect(() => {
-    // Ensure initial reset
     resetProcessAnimation();
-
-    // Animate when the block enters the viewport
     const el = processRef.current;
     if (!el) return;
-
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            // Slight delay, then (re)run each time it enters viewport
-            setTimeout(() => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting && !hasAnimated.current) {
+            hasAnimated.current = true;
+            const startId = window.setTimeout(() => {
               resetProcessAnimation();
               runProcessAnimation();
             }, 150);
-          } else {
-            // Reset when leaving so it can replay when coming back
-            resetProcessAnimation();
+            timeoutsRef.current.push(startId);
           }
         });
       },
-      { root: null, threshold: 0.35 }
+      { threshold: 0.4 }
     );
-
     observer.observe(el);
-    return () => observer.disconnect();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    return () => {
+      observer.disconnect();
+      // cleanup any pending
+      if (timeoutsRef.current.length) {
+        timeoutsRef.current.forEach(id => clearTimeout(id));
+        timeoutsRef.current = [];
+      }
+    };
+  }, [resetProcessAnimation, runProcessAnimation]);
 
   type Color = 'cyan' | 'blue' | 'slate';
   const getColorClasses = (color: Color) => {
@@ -337,8 +346,8 @@ const FormulesPage: React.FC = () => {
                       <div key={index} className="relative">
                         {/* Ligne de connexion */}
                         {index < processSteps.length - 1 && (
-                          <div className="absolute left-6 top-12 w-0.5 h-8 bg-slate-600/50 overflow-hidden">
-                            <div className={`w-full bg-gradient-to-b from-cyan-400 to-blue-400 h-0 step-line-${index + 1} transition-all duration-1000 ease-out`} />
+                          <div className="absolute left-6 top-12 w-0.5 h-20 md:h-24 bg-slate-600/50 overflow-hidden">
+                            <div className={`w-full bg-gradient-to-b from-cyan-400 to-blue-400 h-0 step-line-${index + 1} transition-all duration-700 ease-out`} />
                           </div>
                         )}
                         
@@ -371,8 +380,10 @@ const FormulesPage: React.FC = () => {
                     <div className="text-center pt-4">
                       <button 
                         onClick={() => {
+                          hasAnimated.current = true; // pour éviter observer de relancer
                           resetProcessAnimation();
-                          setTimeout(runProcessAnimation, 50);
+                          const restartId = window.setTimeout(runProcessAnimation, 80);
+                          timeoutsRef.current.push(restartId);
                         }}
                         className="px-3 py-1 bg-slate-700/60 border border-cyan-500/30 text-cyan-300 font-medium font-modern rounded-lg hover:bg-cyan-500/20 hover:border-cyan-400/50 transition-all duration-300 text-xs"
                       >
