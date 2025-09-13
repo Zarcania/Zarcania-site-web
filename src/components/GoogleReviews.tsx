@@ -114,7 +114,10 @@ const GoogleReviews: React.FC = () => {
             )}
           </div>
         </div>
-        <img src="https://www.gstatic.com/images/branding/product/1x/google_g_48dp.png" alt="Google" className="w-6 h-6" />
+        {/* Remplacement du logo distant (pouvant casser) par un badge local stylisé */}
+        <div aria-label="Google" title="Google" className="w-6 h-6 rounded-full bg-white text-slate-900 font-bold text-xs flex items-center justify-center shadow-md shadow-slate-900/50">
+          G
+        </div>
       </div>
 
       <div className="grid gap-4">
