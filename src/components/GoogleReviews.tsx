@@ -114,9 +114,19 @@ const GoogleReviews: React.FC = () => {
             )}
           </div>
         </div>
-        {/* Remplacement du logo distant (pouvant casser) par un badge local stylisé */}
-        <div aria-label="Google" title="Google" className="w-6 h-6 rounded-full bg-white text-slate-900 font-bold text-xs flex items-center justify-center shadow-md shadow-slate-900/50">
-          G
+        <div className="flex items-center gap-3">
+          <img src="/google-g.svg" alt="Google" className="w-6 h-6" />
+          <a
+            href="https://g.page/r/CSzon7sXqzyaEAE/review"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-xs sm:text-sm px-3 py-1.5 rounded-lg bg-cyan-500/20 text-cyan-200 border border-cyan-400/40 hover:bg-cyan-500/30 transition-colors"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
+              <path d="M12 4a1 1 0 011 1v6h6a1 1 0 110 2h-6v6a1 1 0 11-2 0v-6H5a1 1 0 110-2h6V5a1 1 0 011-1z" />
+            </svg>
+            Ajouter un avis
+          </a>
         </div>
       </div>
 
