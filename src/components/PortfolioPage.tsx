@@ -218,7 +218,7 @@ const PortfolioPage: React.FC = () => {
                     <img
                       src={currentProjects[selectedProject]?.images[currentImageIndex] || "/restaurant accueil.png"}
                       alt={currentProjects[selectedProject]?.title}
-                      className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 filter group-hover:brightness-110 cursor-zoom-in"
+                      className="w-full h-full object-cover transition-all duration-700 cursor-zoom-in"
                       loading="lazy" decoding="async"
                       onClick={(e) => {
                         // Desktop: simple click opens
@@ -365,7 +365,7 @@ const PortfolioPage: React.FC = () => {
                       <div
                         key={item.id}
                         onClick={() => handleSelectAndScroll(index)}
-                        className={`group cursor-pointer transition-all duration-500 transform hover:scale-105 ${
+                        className={`group cursor-pointer transition-all duration-500 ${
                           isSelected 
                             ? `ring-2 ring-cyan-400 shadow-2xl shadow-cyan-500/40` 
                             : 'hover:shadow-xl hover:shadow-cyan-500/20'
@@ -376,7 +376,7 @@ const PortfolioPage: React.FC = () => {
                           <img
                             src={item.images[0] || "/restaurant accueil.png"}
                             alt={item.title}
-                            className="w-full h-full object-cover transition-all duration-500 group-hover:scale-110 filter group-hover:brightness-110 cursor-zoom-in" loading="lazy" decoding="async"
+                            className="w-full h-full object-cover transition-all duration-500 cursor-zoom-in" loading="lazy" decoding="async"
                             onClick={(e) => {
                               if (!isTouchDevice) {
                                 e.stopPropagation();
@@ -449,14 +449,14 @@ const PortfolioPage: React.FC = () => {
                   <div
                     key={item.id}
                     onClick={() => handleSelectAndScroll(index)}
-                    className="group cursor-pointer bg-slate-800/60 backdrop-blur-md border border-cyan-500/30 rounded-2xl overflow-hidden hover:border-cyan-400/60 transition-all duration-300 hover:transform hover:scale-105 shadow-xl shadow-slate-900/50 hover:shadow-cyan-500/20"
+                    className="group cursor-pointer bg-slate-800/60 backdrop-blur-md border border-cyan-500/30 rounded-2xl overflow-hidden hover:border-cyan-400/60 transition-all duration-300 shadow-xl shadow-slate-900/50 hover:shadow-cyan-500/20"
                   >
                     {/* Project Image */}
                     <div className="relative h-48 overflow-hidden">
                       <img
                         src={item.images[0]}
                         alt={item.title}
-                        className="w-full h-full object-cover transition-all duration-500 group-hover:scale-110 filter group-hover:brightness-110 cursor-zoom-in" loading="lazy" decoding="async"
+                        className="w-full h-full object-cover transition-all duration-500 cursor-zoom-in" loading="lazy" decoding="async"
                         onClick={(e) => {
                           if (!isTouchDevice) {
                             e.stopPropagation();
