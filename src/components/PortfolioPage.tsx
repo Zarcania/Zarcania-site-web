@@ -218,7 +218,7 @@ const PortfolioPage: React.FC = () => {
                     <img
                       src={currentProjects[selectedProject]?.images[currentImageIndex] || "/restaurant accueil.png"}
                       alt={currentProjects[selectedProject]?.title}
-                      className="w-full h-full object-cover transition-all duration-700 cursor-zoom-in"
+                      className="w-full h-full object-contain transition-all duration-700 cursor-zoom-in bg-slate-900/20"
                       loading="lazy" decoding="async"
                       onClick={(e) => {
                         // Desktop: simple click opens
@@ -376,7 +376,7 @@ const PortfolioPage: React.FC = () => {
                           <img
                             src={item.images[0] || "/restaurant accueil.png"}
                             alt={item.title}
-                            className="w-full h-full object-cover transition-all duration-500 cursor-zoom-in" loading="lazy" decoding="async"
+                            className="w-full h-full object-contain transition-all duration-500 cursor-zoom-in bg-slate-900/20" loading="lazy" decoding="async"
                             onClick={(e) => {
                               if (!isTouchDevice) {
                                 e.stopPropagation();
@@ -456,7 +456,7 @@ const PortfolioPage: React.FC = () => {
                       <img
                         src={item.images[0]}
                         alt={item.title}
-                        className="w-full h-full object-cover transition-all duration-500 cursor-zoom-in" loading="lazy" decoding="async"
+                        className="w-full h-full object-contain transition-all duration-500 cursor-zoom-in bg-slate-900/20" loading="lazy" decoding="async"
                         onClick={(e) => {
                           if (!isTouchDevice) {
                             e.stopPropagation();
