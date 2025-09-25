@@ -96,8 +96,28 @@ const GoogleReviews: React.FC = () => {
     );
   }
 
-  // Fallback: si l’API échoue, on affiche au moins l’avis épinglé
-  const effectiveReviews = [pinned, ...((data?.reviews ?? []))];
+  // Avis supplémentaires saisis manuellement (captures fournies)
+  const manualExtras: Review[] = [
+    {
+      authorName: '死 Zèleph 死',
+      rating: 5,
+      relativeTime: 'il y a 3 jours',
+      text: 'Réactif, rigoureux et à l\'écoute je recommande vivement !',
+      source: 'Manuel',
+      createdAtISO: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString()
+    },
+    {
+      authorName: 'shadow itpla',
+      rating: 5,
+      relativeTime: 'il y a 2 semaines',
+      text: 'J\'ai été prestataire avec l\'entreprise "Zarcania". La communication était parfaite entre nous, très accueillant je conseille vivement !',
+      source: 'Manuel',
+      createdAtISO: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString()
+    }
+  ];
+
+  // Fallback: si l’API échoue, on affiche avis épinglé + extras
+  const effectiveReviews = [pinned, ...manualExtras, ...((data?.reviews ?? []))];
   const avg = data?.rating ?? pinned.rating;
   const total = data?.userRatingCount ?? 1;
 
