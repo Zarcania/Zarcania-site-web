@@ -310,7 +310,7 @@ const ProfileCardComponent = ({
                 <div className="pc-user-details">
                   <div className="pc-mini-avatar">
                     <img
-                      src={miniAvatarUrl || "/anto logo copy.jpg"}
+                      src={miniAvatarUrl || "/logo.png?v=4"}
                       alt={`${name || "User"} mini avatar`}
                       loading="lazy"
                       onError={(e) => {

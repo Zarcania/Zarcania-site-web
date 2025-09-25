@@ -93,7 +93,7 @@ const Header: React.FC<HeaderProps> = ({ onPortfolioClick, onFormulesClick, onCo
           {/* Logo à gauche */}
           <div className="flex items-center space-x-2 sm:space-x-3 cursor-pointer mobile-touch-target" onClick={handleLogoClick} role="banner">
             <img 
-              src="/anto logo copy.jpg" 
+              src="/logo.png?v=4" 
               alt="Zarcania Logo" 
               className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full object-cover"
               loading="lazy" decoding="async"

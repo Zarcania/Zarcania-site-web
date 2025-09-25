@@ -10,11 +10,11 @@ const teamImages = {
   anthony: buildSrcSet('/team-anthony.jpg', [
     '/anthony-corradi.jpg',
     '/WhatsApp Image 2025-09-04 à 22.54.53_7ef95f7c.jpg',
-    '/anto logo copy.jpg'
+    '/logo.png?v=4'
   ]),
   jordan: buildSrcSet('/team-jordan.jpg', [
     '/WhatsApp Image 2025-09-04 à 23.03.14_3ef453ca.jpg',
-    '/anto logo copy.jpg'
+    '/logo.png?v=4'
   ])
 };
 

@@ -52,7 +52,7 @@ const ContactPage = () => {
               {/* Logo Zarcania */}
               <div className="flex items-center justify-center mb-6">
                 <img 
-                  src="/anto logo copy.jpg" 
+                  src="/logo.png?v=4" 
                   alt="Zarcania Logo" 
                   className="w-16 h-16 rounded-full object-cover border-2 border-cyan-400/50 shadow-lg shadow-cyan-500/30"
                 />
