@@ -15,6 +15,13 @@ const teamImages = {
   jordan: buildSrcSet('/team-jordan.jpg', [
     '/WhatsApp Image 2025-09-04 à 23.03.14_3ef453ca.jpg',
     '/logo.png?v=4'
+  ]),
+  lucas: buildSrcSet('/lucas radureau .png', [
+    '/lucas-radureau.png',
+    '/lucas-radureau.jpg',
+    '/team-lucas.png',
+    '/team-lucas.jpg',
+    '/logo.png?v=4'
   ])
 };
 
@@ -33,11 +40,18 @@ const About = () => {
       role: 'Développeur Full-Stack',
       description: 'Spécialiste du développement full-stack avec une expertise en technologies modernes.',
       skills: ['JavaScript', 'Python', 'DevOps']
+    },
+    {
+      key: 'lucas',
+      name: 'Lucas Radureau',
+      role: 'Chef de projet',
+      description: 'Coordination, cadrage et qualité. Garant du respect des délais et de la cohérence produit.',
+      skills: ['Gestion de projet', 'Planification', 'Qualité']
     }
   ];
 
   const handleImgError = (e: React.SyntheticEvent<HTMLImageElement>, memberKey: string) => {
-    const data = teamImages[memberKey as 'anthony' | 'jordan'];
+    const data = teamImages[memberKey as 'anthony' | 'jordan' | 'lucas'];
     if (!data) return;
     const current = e.currentTarget.getAttribute('data-fallback-index');
     const idx = current ? parseInt(current, 10) : 0;
@@ -77,6 +91,18 @@ const About = () => {
               Chaque projet bénéficie d'un <strong>design responsive</strong>, d'une <strong>optimisation SEO</strong> et d'un <strong>support technique inclus</strong>. Notre approche garantit des sites web modernes, rapides et optimisés pour les moteurs de recherche.
             </p>
           </div>
+          <div className="mt-6">
+            <a
+              href="/a-propos"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-cyan-400/40 text-cyan-200 bg-cyan-500/10 hover:bg-cyan-500/20 transition-colors font-modern text-sm"
+              aria-label="Voir plus sur l'histoire de Zarcania"
+            >
+              Voir plus
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
+                <path d="M13.5 4.5l6 6-6 6M3 12h16.5"/>
+              </svg>
+            </a>
+          </div>
         </div>
 
         {/* Team */}
@@ -84,9 +110,9 @@ const About = () => {
           <h3 className="heading-responsive-sm font-bold text-white text-center margin-responsive">
               Notre Équipe
           </h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 sm:gap-12 md:gap-16 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 sm:gap-12 md:gap-16 max-w-5xl mx-auto">
             {team.map((member, index) => {
-              const imgSet = teamImages[member.key as 'anthony' | 'jordan'];
+              const imgSet = teamImages[member.key as 'anthony' | 'jordan' | 'lucas'];
               return (
                 <div
                   key={member.key}
