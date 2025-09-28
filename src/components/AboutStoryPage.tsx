@@ -52,7 +52,7 @@ const AboutStoryPage: React.FC = () => {
             </div>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
               <a href="/contact" className="px-5 py-2.5 rounded-lg bg-cyan-500 text-slate-900 font-semibold hover:bg-cyan-400 transition">Nous contacter</a>
-              <a href="/direction-artistique" className="px-5 py-2.5 rounded-lg border border-cyan-500/40 text-white hover:border-cyan-300/60 transition">Charte graphique</a>
+              <a href="/portfolio" className="px-5 py-2.5 rounded-lg border border-cyan-500/40 text-white hover:border-cyan-300/60 transition">Voir le portfolio</a>
             </div>
           </div>
         </section>
@@ -95,7 +95,7 @@ const AboutStoryPage: React.FC = () => {
             <p className="text-gray-300 mt-2">Parlons de votre site, de vos objectifs et de votre audience.</p>
             <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
               <a href="/rendez-vous" className="px-5 py-2.5 rounded-lg bg-cyan-500 text-slate-900 font-semibold hover:bg-cyan-400 transition">Prendre rendez‑vous</a>
-              <a href="/direction-artistique" className="px-5 py-2.5 rounded-lg border border-cyan-500/40 text-white hover:border-cyan-300/60 transition">Voir la direction artistique</a>
+              <a href="/portfolio" className="px-5 py-2.5 rounded-lg border border-cyan-500/40 text-white hover:border-cyan-300/60 transition">Voir nos réalisations</a>
             </div>
           </div>
         </section>
