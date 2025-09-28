@@ -16,7 +16,10 @@ const teamImages = {
     '/WhatsApp Image 2025-09-04 à 23.03.14_3ef453ca.jpg',
     '/logo.png?v=4'
   ]),
-  lucas: buildSrcSet('/team-lucas.png', [
+  lucas: buildSrcSet('/lucas-radureau.png', [
+    '/lucas-radureau.jpg',
+    '/team-lucas.png',
+    '/team-lucas.jpg',
     '/logo.png?v=4'
   ])
 };
