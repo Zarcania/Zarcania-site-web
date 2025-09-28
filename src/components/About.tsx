@@ -77,6 +77,18 @@ const About = () => {
               Chaque projet bénéficie d'un <strong>design responsive</strong>, d'une <strong>optimisation SEO</strong> et d'un <strong>support technique inclus</strong>. Notre approche garantit des sites web modernes, rapides et optimisés pour les moteurs de recherche.
             </p>
           </div>
+          <div className="mt-6">
+            <a
+              href="/a-propos"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-cyan-400/40 text-cyan-200 bg-cyan-500/10 hover:bg-cyan-500/20 transition-colors font-modern text-sm"
+              aria-label="Voir plus sur l'histoire de Zarcania"
+            >
+              Voir plus
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
+                <path d="M13.5 4.5l6 6-6 6M3 12h16.5"/>
+              </svg>
+            </a>
+          </div>
         </div>
 
         {/* Team */}

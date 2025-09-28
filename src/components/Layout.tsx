@@ -5,7 +5,7 @@ import Footer from './Footer';
 import AnimatedBackground from './AnimatedBackground';
 import ParallaxStars from './ParallaxStars';
 
-type PageKey = 'home' | 'portfolio' | 'formules' | 'contact' | 'appointment' | 'mentions-legales';
+type PageKey = 'home' | 'portfolio' | 'formules' | 'contact' | 'appointment' | 'a-propos' | 'mentions-legales';
 
 const Layout = () => {
   const navigate = useNavigate();
@@ -16,7 +16,8 @@ const Layout = () => {
     path === '/' ? 'home'
     : path.startsWith('/portfolio') ? 'portfolio'
     : path.startsWith('/formules') ? 'formules'
-    : path.startsWith('/contact') ? 'contact'
+  : path.startsWith('/contact') ? 'contact'
+  : path.startsWith('/a-propos') ? 'a-propos'
   : path.startsWith('/rendez-vous') || path.startsWith('/appointment') || path.startsWith('/rdv') ? 'appointment'
     : path.startsWith('/mentions-legales') ? 'mentions-legales'
     : 'home';
@@ -27,6 +28,7 @@ const Layout = () => {
   const onFormulesClick = () => { navigate('/formules'); setTimeout(scrollTop, 50); };
   const onContactClick = () => { navigate('/contact'); setTimeout(scrollTop, 50); };
   const onAppointmentClick = () => { navigate('/rendez-vous'); setTimeout(scrollTop, 50); };
+  const onAboutClick = () => { navigate('/a-propos'); setTimeout(scrollTop, 50); };
   const onNavigateHome = (section?: string) => {
     if (path !== '/') navigate('/');
     setTimeout(() => {
@@ -73,6 +75,7 @@ const Layout = () => {
       formules: 'Formules – Création de sites web',
       contact: 'Contact – Zarcania',
       appointment: 'Rendez-vous – Devis et accompagnement',
+      'a-propos': 'À propos – Histoire de Zarcania',
       'mentions-legales': 'Mentions légales – Zarcania'
     };
     const descriptions: Record<PageKey, string> = {
@@ -81,6 +84,7 @@ const Layout = () => {
       formules: 'Nos formules de création de site web : vitrine, avancé, e‑commerce et développement sur mesure.',
       contact: 'Contactez Zarcania à Paris : email, téléphone et formulaire pour votre projet web.',
       appointment: 'Prenez rendez-vous pour parler de votre site : accompagnement et devis gratuit.',
+      'a-propos': "L'histoire de Zarcania, nos valeurs et notre vision.",
       'mentions-legales': 'Informations légales du site Zarcania.'
     };
     document.title = titles[currentPage];
@@ -98,6 +102,7 @@ const Layout = () => {
           onFormulesClick={onFormulesClick}
           onContactClick={onContactClick}
           onAppointmentClick={onAppointmentClick}
+          onAboutClick={onAboutClick}
           onNavigateHome={onNavigateHome}
           currentPage={currentPage}
         />
