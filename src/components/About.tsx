@@ -15,6 +15,9 @@ const teamImages = {
   jordan: buildSrcSet('/team-jordan.jpg', [
     '/WhatsApp Image 2025-09-04 à 23.03.14_3ef453ca.jpg',
     '/logo.png?v=4'
+  ]),
+  lucas: buildSrcSet('/team-lucas.png', [
+    '/logo.png?v=4'
   ])
 };
 
@@ -33,11 +36,18 @@ const About = () => {
       role: 'Développeur Full-Stack',
       description: 'Spécialiste du développement full-stack avec une expertise en technologies modernes.',
       skills: ['JavaScript', 'Python', 'DevOps']
+    },
+    {
+      key: 'lucas',
+      name: 'Lucas Radureau',
+      role: 'Chef de projet',
+      description: 'Coordination, cadrage et qualité. Garant du respect des délais et de la cohérence produit.',
+      skills: ['Gestion de projet', 'Planification', 'Qualité']
     }
   ];
 
   const handleImgError = (e: React.SyntheticEvent<HTMLImageElement>, memberKey: string) => {
-    const data = teamImages[memberKey as 'anthony' | 'jordan'];
+    const data = teamImages[memberKey as 'anthony' | 'jordan' | 'lucas'];
     if (!data) return;
     const current = e.currentTarget.getAttribute('data-fallback-index');
     const idx = current ? parseInt(current, 10) : 0;
@@ -96,9 +106,9 @@ const About = () => {
           <h3 className="heading-responsive-sm font-bold text-white text-center margin-responsive">
               Notre Équipe
           </h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 sm:gap-12 md:gap-16 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 sm:gap-12 md:gap-16 max-w-5xl mx-auto">
             {team.map((member, index) => {
-              const imgSet = teamImages[member.key as 'anthony' | 'jordan'];
+              const imgSet = teamImages[member.key as 'anthony' | 'jordan' | 'lucas'];
               return (
                 <div
                   key={member.key}
