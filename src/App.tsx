@@ -12,6 +12,7 @@ const ContactPage = lazy(() => import('./components/ContactPage'));
 const AppointmentPage = lazy(() => import('./components/AppointmentPage'));
 const MentionsLegalesPage = lazy(() => import('./components/MentionsLegalesPage'));
 const AboutStoryPage = lazy(() => import('./components/AboutStoryPage'));
+const DirectionArtistiquePage = lazy(() => import('./components/DirectionArtistiquePage'));
 
 const HomePage = () => (
   <>
@@ -32,6 +33,7 @@ function App() {
   <Route path="/contact" element={<ContactPage />} />
   <Route path="/rendez-vous" element={<AppointmentPage />} />
         <Route path="/a-propos" element={<AboutStoryPage />} />
+  <Route path="/direction-artistique" element={<DirectionArtistiquePage />} />
         <Route path="/mentions-legales" element={<MentionsLegalesPage />} />
         {/* aliases */}
   <Route path="/rdv" element={<AppointmentPage />} />

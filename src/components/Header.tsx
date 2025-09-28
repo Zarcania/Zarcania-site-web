@@ -7,11 +7,12 @@ interface HeaderProps {
   onContactClick: () => void;
   onAppointmentClick: () => void;
   onAboutClick?: () => void;
+  onDesignSystemClick?: () => void;
   onNavigateHome: (section?: string) => void;
-  currentPage: 'home' | 'portfolio' | 'formules' | 'contact' | 'appointment' | 'a-propos' | 'mentions-legales';
+  currentPage: 'home' | 'portfolio' | 'formules' | 'contact' | 'appointment' | 'a-propos' | 'direction-artistique' | 'mentions-legales';
 }
 
-const Header: React.FC<HeaderProps> = ({ onPortfolioClick, onFormulesClick, onContactClick, onAppointmentClick, onAboutClick, onNavigateHome, currentPage }) => {
+const Header: React.FC<HeaderProps> = ({ onPortfolioClick, onFormulesClick, onContactClick, onAppointmentClick, onAboutClick, onDesignSystemClick, onNavigateHome, currentPage }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -32,7 +33,7 @@ const Header: React.FC<HeaderProps> = ({ onPortfolioClick, onFormulesClick, onCo
     }
   };
 
-  const handleMenuClick = (section: string, isPortfolio: boolean = false, isFormules: boolean = false, isContact: boolean = false, isAppointment: boolean = false, isAbout: boolean = false) => {
+  const handleMenuClick = (section: string, isPortfolio: boolean = false, isFormules: boolean = false, isContact: boolean = false, isAppointment: boolean = false, isAbout: boolean = false, isDesignSystem: boolean = false) => {
     setIsMenuOpen(false);
     
     if (isPortfolio) {
@@ -67,6 +68,14 @@ const Header: React.FC<HeaderProps> = ({ onPortfolioClick, onFormulesClick, onCo
       return;
     }
 
+    if (isDesignSystem && onDesignSystemClick) {
+      onDesignSystemClick();
+      setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, 100);
+      return;
+    }
+
     if (currentPage !== 'home') {
       // Si on est sur portfolio, retourner à l'accueil puis naviguer vers la section
       onNavigateHome();
@@ -85,10 +94,11 @@ const Header: React.FC<HeaderProps> = ({ onPortfolioClick, onFormulesClick, onCo
     }
   };
 
-  const menuItems: Array<{ name: string; section: string; isPortfolio?: boolean; isFormules?: boolean; isContact?: boolean; isAppointment?: boolean; isAbout?: boolean }> = [
+  const menuItems: Array<{ name: string; section: string; isPortfolio?: boolean; isFormules?: boolean; isContact?: boolean; isAppointment?: boolean; isAbout?: boolean; isDesignSystem?: boolean }> = [
     { name: 'Nos Formules', section: '', isFormules: true },
     { name: 'Portfolio', section: '', isPortfolio: true },
     { name: 'À propos', section: '', isAbout: true },
+    { name: 'Direction artistique', section: '', isDesignSystem: true },
     { name: 'Prendre rendez-vous', section: '', isAppointment: true },
     { name: 'Contact', section: '', isContact: true }
   ];
@@ -117,7 +127,7 @@ const Header: React.FC<HeaderProps> = ({ onPortfolioClick, onFormulesClick, onCo
             {menuItems.map((item) => (
               <button
                 key={item.name}
-                onClick={() => handleMenuClick(item.section, item.isPortfolio, item.isFormules, item.isContact, item.isAppointment, item.isAbout)}
+                onClick={() => handleMenuClick(item.section, item.isPortfolio, item.isFormules, item.isContact, item.isAppointment, item.isAbout, item.isDesignSystem)}
                 className="text-white hover:text-cyan-300 transition-colors duration-300 font-medium font-modern"
                 aria-label={`Naviguer vers ${item.name}`}
               >
@@ -143,7 +153,7 @@ const Header: React.FC<HeaderProps> = ({ onPortfolioClick, onFormulesClick, onCo
               {menuItems.map((item) => (
                 <button
                   key={item.name}
-                  onClick={() => handleMenuClick(item.section, item.isPortfolio, item.isFormules, item.isContact, item.isAppointment, item.isAbout)}
+                  onClick={() => handleMenuClick(item.section, item.isPortfolio, item.isFormules, item.isContact, item.isAppointment, item.isAbout, item.isDesignSystem)}
                   className="block w-full text-right py-3 pr-4 pl-4 text-white hover:text-cyan-300 hover:bg-cyan-500/10 transition-all duration-300 font-medium"
                 >
                   {item.name}

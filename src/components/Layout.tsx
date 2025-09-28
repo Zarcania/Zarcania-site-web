@@ -5,7 +5,7 @@ import Footer from './Footer';
 import AnimatedBackground from './AnimatedBackground';
 import ParallaxStars from './ParallaxStars';
 
-type PageKey = 'home' | 'portfolio' | 'formules' | 'contact' | 'appointment' | 'a-propos' | 'mentions-legales';
+type PageKey = 'home' | 'portfolio' | 'formules' | 'contact' | 'appointment' | 'a-propos' | 'direction-artistique' | 'mentions-legales';
 
 const Layout = () => {
   const navigate = useNavigate();
@@ -18,6 +18,7 @@ const Layout = () => {
     : path.startsWith('/formules') ? 'formules'
   : path.startsWith('/contact') ? 'contact'
   : path.startsWith('/a-propos') ? 'a-propos'
+  : path.startsWith('/direction-artistique') ? 'direction-artistique'
   : path.startsWith('/rendez-vous') || path.startsWith('/appointment') || path.startsWith('/rdv') ? 'appointment'
     : path.startsWith('/mentions-legales') ? 'mentions-legales'
     : 'home';
@@ -29,6 +30,7 @@ const Layout = () => {
   const onContactClick = () => { navigate('/contact'); setTimeout(scrollTop, 50); };
   const onAppointmentClick = () => { navigate('/rendez-vous'); setTimeout(scrollTop, 50); };
   const onAboutClick = () => { navigate('/a-propos'); setTimeout(scrollTop, 50); };
+  const onDesignSystemClick = () => { navigate('/direction-artistique'); setTimeout(scrollTop, 50); };
   const onNavigateHome = (section?: string) => {
     if (path !== '/') navigate('/');
     setTimeout(() => {
@@ -76,6 +78,7 @@ const Layout = () => {
       contact: 'Contact – Zarcania',
       appointment: 'Rendez-vous – Devis et accompagnement',
       'a-propos': 'À propos – Histoire de Zarcania',
+      'direction-artistique': 'Direction artistique – Charte graphique',
       'mentions-legales': 'Mentions légales – Zarcania'
     };
     const descriptions: Record<PageKey, string> = {
@@ -85,6 +88,7 @@ const Layout = () => {
       contact: 'Contactez Zarcania à Paris : email, téléphone et formulaire pour votre projet web.',
       appointment: 'Prenez rendez-vous pour parler de votre site : accompagnement et devis gratuit.',
       'a-propos': "L'histoire de Zarcania, nos valeurs et notre vision.",
+      'direction-artistique': 'Charte visuelle : palette, typographies, usages du logo, imagerie et principes de mouvement.',
       'mentions-legales': 'Informations légales du site Zarcania.'
     };
     document.title = titles[currentPage];
@@ -103,6 +107,7 @@ const Layout = () => {
           onContactClick={onContactClick}
           onAppointmentClick={onAppointmentClick}
           onAboutClick={onAboutClick}
+          onDesignSystemClick={onDesignSystemClick}
           onNavigateHome={onNavigateHome}
           currentPage={currentPage}
         />
