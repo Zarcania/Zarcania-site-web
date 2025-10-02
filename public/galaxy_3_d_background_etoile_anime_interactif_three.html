@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Arrière‑plan Galaxie 3D — étoiles animées</title>
+  <style>
+    :root {
+      color-scheme: dark;
+    }
+    html, body {
+      margin: 0;
+      height: 100%;
+      overflow: hidden;
+      background: radial-gradient(1200px 800px at 50% 50%, #0b0a15 0%, #05040b 40%, #000 100%);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+    }
+    /* Le canvas couvre tout l'écran (arrière‑plan) */
+    #galaxy-canvas {
+      position: fixed;
+      inset: 0;
+      display: block;
+      z-index: 0;
+      outline: none;
+    }
+    /* Superpose une légère vignette pour la profondeur */
+    .vignette {
+      pointer-events: none;
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(60% 60% at 50% 50%, rgba(0,0,0,0) 60%, rgba(0,0,0,0.25) 100%);
+      z-index: 1;
+    }
+    /* Zone de démo en overlay (facultatif) */
+    .overlay {
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      z-index: 2;
+      padding: 10px 14px;
+      background: rgba(10,10,18,0.55);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      user-select: none;
+    }
+    .overlay h1 {
+      margin: 0 0 6px 0;
+      font-size: 14px;
+      letter-spacing: 0.4px;
+      opacity: 0.95;
+    }
+    .overlay p {
+      margin: 0;
+      font-size: 12px;
+      opacity: 0.7;
+    }
+    @media (max-width: 640px) {
+      .overlay { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="galaxy-canvas" aria-label="Arrière-plan animé: galaxie 3D et étoiles"></canvas>
+
+  <script>
+(function(){
+  const canvas = document.getElementById('galaxy-canvas');
+  const ctx = canvas.getContext('2d', { alpha: false });
+  const DPR = Math.min(window.devicePixelRatio || 1, 2);
+
+  // --- Resize to full screen ---
+  function resize(){
+    const w = innerWidth, h = innerHeight;
+    canvas.width = Math.max(1, Math.floor(w * DPR));
+    canvas.height = Math.max(1, Math.floor(h * DPR));
+    canvas.style.width = w + 'px';
+    canvas.style.height = h + 'px';
+  }
+  resize();
+  addEventListener('resize', resize, {passive:true});
+
+  // --- Helpers ---
+  const clamp = (n, a, b) => Math.min(b, Math.max(a, n));
+  function gaussian(){ let u=0,v=0; while(!u) u=Math.random(); while(!v) v=Math.random(); return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v); }
+
+  // Approx blackbody to RGB (very rough, good enough for star tint)
+  function kelvinToRGB(k){
+    k = clamp(k, 1000, 40000) / 100;
+    let r, g, b;
+    // Red
+    if (k <= 66) r = 255; else r = 329.698727446 * Math.pow(k - 60, -0.1332047592);
+    // Green
+    if (k <= 66) g = 99.4708025861 * Math.log(k) - 161.1195681661; else g = 288.1221695283 * Math.pow(k - 60, -0.0755148492);
+    // Blue
+    if (k >= 66) b = 255; else if (k <= 19) b = 0; else b = 138.5177312231 * Math.log(k - 10) - 305.0447927307;
+    return {
+      r: clamp(Math.round(r),0,255),
+      g: clamp(Math.round(g),0,255),
+      b: clamp(Math.round(b),0,255)
+    };
+  }
+
+  // --- Pre-rendered star sprites (3 sizes x 3 tints) ---
+  function makeSprite(radiusPx, color){
+    const off = document.createElement('canvas');
+    const size = Math.max(2, Math.ceil(radiusPx*2));
+    off.width = off.height = size;
+    const ictx = off.getContext('2d');
+    const g = ictx.createRadialGradient(size/2, size/2, 0, size/2, size/2, size/2);
+    const {r,g:cG,b} = color;
+    ictx.clearRect(0,0,size,size);
+    g.addColorStop(0.0, `rgba(${r},${cG},${b},1)`);
+    g.addColorStop(0.35, `rgba(${r},${cG},${b},0.6)`);
+    g.addColorStop(0.7, `rgba(${r},${cG},${b},0.15)`);
+    g.addColorStop(1.0, `rgba(${r},${cG},${b},0)`);
+    ictx.fillStyle = g;
+    ictx.beginPath();
+    ictx.arc(size/2, size/2, size/2, 0, Math.PI*2);
+    ictx.fill();
+    return off;
+  }
+
+  const SIZE_SET = [1.2, 2.0, 3.2]; // base radii in CSS px (scaled by DPR later)
+  const TINTS = [ kelvinToRGB(3500), kelvinToRGB(5500), kelvinToRGB(9000) ];
+  const SPRITES = [];
+  for (let s=0; s<SIZE_SET.length; s++){
+    SPRITES[s] = [];
+    for (let t=0; t<TINTS.length; t++){
+      SPRITES[s][t] = makeSprite(SIZE_SET[s]*DPR, TINTS[t]);
+    }
+  }
+
+  // --- Generate starfield (layers for depth) ---
+  const AREA = innerWidth * innerHeight;
+  const FAR_COUNT  = clamp(Math.floor(AREA / 700), 1500, 12000);
+  const MID_COUNT  = clamp(Math.floor(AREA / 1800),  600,  6000);
+  const NEAR_COUNT = clamp(Math.floor(AREA / 3500),  250,  2500);
+  const BRIGHT_EXTRA = clamp(Math.floor(AREA / 12000), 30, 400); // rare bright stars
+
+  function newStar(layer){
+    // Layer controls apparent size & speed
+    const layerCfg = {
+      far:  { sizeIdxProb: [0.8, 0.18, 0.02], speed: 0.02 },
+      mid:  { sizeIdxProb: [0.5, 0.4, 0.1],  speed: 0.06 },
+      near: { sizeIdxProb: [0.25, 0.5, 0.25],speed: 0.12 }
+    }[layer];
+    const p = layerCfg.sizeIdxProb;
+    const r = Math.random();
+    let sizeIdx = r < p[0] ? 0 : (r < p[0]+p[1] ? 1 : 2);
+    const tintIdx = Math.random() < 0.15 ? 0 : (Math.random() < 0.65 ? 1 : 2);
+
+    const vx = (Math.random()-0.5) * layerCfg.speed; // tiny drift
+    const vy = (Math.random()-0.5) * layerCfg.speed;
+
+    return {
+      x: Math.random()*canvas.width,
+      y: Math.random()*canvas.height,
+      vx, vy,
+      sizeIdx,
+      tintIdx,
+      phase: Math.random()*Math.PI*2,
+      twinkle: 0.06 + Math.random()*0.12,
+      stretch: layer === 'near' && Math.random() < 0.3 ? 1.4 + Math.random()*0.9 : 1.0,
+      angle: Math.random()*Math.PI*2
+    };
+  }
+
+  const stars = [];
+  for(let i=0;i<FAR_COUNT;i++) stars.push(newStar('far'));
+  for(let i=0;i<MID_COUNT;i++) stars.push(newStar('mid'));
+  for(let i=0;i<NEAR_COUNT;i++) stars.push(newStar('near'));
+  // Bright extras
+  for(let i=0;i<BRIGHT_EXTRA;i++){
+    const s = newStar('near');
+    s.sizeIdx = 2; s.twinkle = 0.02 + Math.random()*0.06; s.stretch = 1.0; s.tintIdx = Math.random()<0.5?1:(Math.random()<0.5?0:2);
+    stars.push(s);
+  }
+
+  // Interaction: subtle parallax with pointer
+  let pointerX = 0, pointerY = 0; // -1..1
+  addEventListener('pointermove', (e)=>{
+    pointerX = (e.clientX / innerWidth) * 2 - 1;
+    pointerY = (e.clientY / innerHeight) * 2 - 1;
+  }, {passive:true});
+
+  // Animation
+  let last = performance.now();
+  function frame(t){
+    const dt = Math.min(32, t - last) * 0.001; // seconds
+    last = t;
+
+    // background solid black
+    ctx.fillStyle = '#000';
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+
+    ctx.globalCompositeOperation = 'lighter';
+
+    // Draw all stars
+    for (let i=0;i<stars.length;i++){
+      const s = stars[i];
+      // drift
+      s.x += s.vx * DPR + pointerX * (s.sizeIdx+1) * 0.02;
+      s.y += s.vy * DPR + pointerY * (s.sizeIdx+1) * 0.01;
+      if (s.x < -8) s.x = canvas.width+8; if (s.x > canvas.width+8) s.x = -8;
+      if (s.y < -8) s.y = canvas.height+8; if (s.y > canvas.height+8) s.y = -8;
+
+      const sprite = SPRITES[s.sizeIdx][s.tintIdx];
+      const baseAlpha = 0.6 + (s.sizeIdx*0.15);
+      const a = clamp(baseAlpha + Math.sin(t*1.5 + s.phase) * s.twinkle, 0.15, 1.0);
+      ctx.globalAlpha = a;
+
+      if (s.stretch !== 1.0){
+        // stretched (elliptical) draw for subtle motion blur look
+        const w = sprite.width * s.stretch;
+        const h = sprite.height;
+        ctx.save();
+        ctx.translate(s.x, s.y);
+        ctx.rotate(s.angle);
+        ctx.drawImage(sprite, -w/2, -h/2, w, h);
+        ctx.restore();
+      } else {
+        ctx.drawImage(sprite, s.x - sprite.width/2, s.y - sprite.height/2);
+      }
+    }
+
+    ctx.globalCompositeOperation = 'source-over';
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

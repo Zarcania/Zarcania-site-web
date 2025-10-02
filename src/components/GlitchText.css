@@ -1,0 +1,310 @@
+/* Variables CSS pour la personnalisation */
+.glitch {
+  position: relative;
+  display: inline-block;
+  font-weight: bold;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  animation: glitch-main 8s infinite;
+}
+
+/* Animation principale de glitch */
+@keyframes glitch-main {
+  0%, 90%, 100% {
+    transform: translate(0);
+    filter: hue-rotate(0deg);
+  }
+  10% {
+    transform: translate(-2px, 2px);
+    filter: hue-rotate(90deg);
+  }
+  20% {
+    transform: translate(-1px, -1px);
+    filter: hue-rotate(180deg);
+  }
+  30% {
+    transform: translate(1px, 2px);
+    filter: hue-rotate(270deg);
+  }
+  40% {
+    transform: translate(1px, -1px);
+    filter: hue-rotate(360deg);
+  }
+  50% {
+    transform: translate(-1px, 2px);
+    filter: hue-rotate(45deg);
+  }
+  60% {
+    transform: translate(-1px, 1px);
+    filter: hue-rotate(135deg);
+  }
+  70% {
+    transform: translate(2px, 1px);
+    filter: hue-rotate(225deg);
+  }
+  80% {
+    transform: translate(-2px, -1px);
+    filter: hue-rotate(315deg);
+  }
+}
+
+/* Pseudo-éléments pour les effets de duplication */
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  overflow: hidden;
+  clip: rect(0, 900px, 0, 0);
+}
+
+/* Effet rouge (before) */
+.glitch::before {
+  animation: glitch-before var(--before-duration, 2s) infinite linear alternate-reverse;
+  text-shadow: var(--before-shadow, 5px 0 cyan);
+  color: transparent;
+  background: linear-gradient(90deg, transparent, cyan, transparent);
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+
+/* Effet cyan (after) */
+.glitch::after {
+  animation: glitch-after var(--after-duration, 3s) infinite linear alternate-reverse;
+  text-shadow: var(--after-shadow, -5px 0 cyan);
+  color: transparent;
+  background: linear-gradient(90deg, transparent, cyan, transparent);
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+
+/* Animations des pseudo-éléments */
+@keyframes glitch-before {
+  0% {
+    clip: rect(61px, 9999px, 52px, 0);
+    transform: skew(0.8deg);
+  }
+  5% {
+    clip: rect(33px, 9999px, 144px, 0);
+    transform: skew(0.4deg);
+  }
+  10% {
+    clip: rect(121px, 9999px, 115px, 0);
+    transform: skew(0.2deg);
+  }
+  15% {
+    clip: rect(144px, 9999px, 162px, 0);
+    transform: skew(0.1deg);
+  }
+  20% {
+    clip: rect(62px, 9999px, 180px, 0);
+    transform: skew(0.3deg);
+  }
+  25% {
+    clip: rect(34px, 9999px, 42px, 0);
+    transform: skew(0.6deg);
+  }
+  30% {
+    clip: rect(147px, 9999px, 179px, 0);
+    transform: skew(0.4deg);
+  }
+  35% {
+    clip: rect(99px, 9999px, 63px, 0);
+    transform: skew(0.2deg);
+  }
+  40% {
+    clip: rect(188px, 9999px, 122px, 0);
+    transform: skew(0.5deg);
+  }
+  45% {
+    clip: rect(154px, 9999px, 14px, 0);
+    transform: skew(0.1deg);
+  }
+  50% {
+    clip: rect(63px, 9999px, 37px, 0);
+    transform: skew(0.7deg);
+  }
+  55% {
+    clip: rect(161px, 9999px, 147px, 0);
+    transform: skew(0.3deg);
+  }
+  60% {
+    clip: rect(109px, 9999px, 175px, 0);
+    transform: skew(0.4deg);
+  }
+  65% {
+    clip: rect(157px, 9999px, 88px, 0);
+    transform: skew(0.2deg);
+  }
+  70% {
+    clip: rect(173px, 9999px, 131px, 0);
+    transform: skew(0.6deg);
+  }
+  75% {
+    clip: rect(91px, 9999px, 133px, 0);
+    transform: skew(0.1deg);
+  }
+  80% {
+    clip: rect(40px, 9999px, 73px, 0);
+    transform: skew(0.8deg);
+  }
+  85% {
+    clip: rect(119px, 9999px, 46px, 0);
+    transform: skew(0.3deg);
+  }
+  90% {
+    clip: rect(166px, 9999px, 42px, 0);
+    transform: skew(0.5deg);
+  }
+  95% {
+    clip: rect(70px, 9999px, 105px, 0);
+    transform: skew(0.2deg);
+  }
+  100% {
+    clip: rect(25px, 9999px, 199px, 0);
+    transform: skew(0.4deg);
+  }
+}
+
+@keyframes glitch-after {
+  0% {
+    clip: rect(26px, 9999px, 33px, 0);
+    transform: skew(0.7deg);
+  }
+  5% {
+    clip: rect(140px, 9999px, 198px, 0);
+    transform: skew(0.2deg);
+  }
+  10% {
+    clip: rect(184px, 9999px, 89px, 0);
+    transform: skew(0.6deg);
+  }
+  15% {
+    clip: rect(121px, 9999px, 6px, 0);
+    transform: skew(0.1deg);
+  }
+  20% {
+    clip: rect(187px, 9999px, 95px, 0);
+    transform: skew(0.4deg);
+  }
+  25% {
+    clip: rect(137px, 9999px, 193px, 0);
+    transform: skew(0.3deg);
+  }
+  30% {
+    clip: rect(137px, 9999px, 168px, 0);
+    transform: skew(0.5deg);
+  }
+  35% {
+    clip: rect(71px, 9999px, 179px, 0);
+    transform: skew(0.2deg);
+  }
+  40% {
+    clip: rect(98px, 9999px, 142px, 0);
+    transform: skew(0.8deg);
+  }
+  45% {
+    clip: rect(147px, 9999px, 104px, 0);
+    transform: skew(0.1deg);
+  }
+  50% {
+    clip: rect(99px, 9999px, 16px, 0);
+    transform: skew(0.6deg);
+  }
+  55% {
+    clip: rect(153px, 9999px, 84px, 0);
+    transform: skew(0.3deg);
+  }
+  60% {
+    clip: rect(52px, 9999px, 190px, 0);
+    transform: skew(0.4deg);
+  }
+  65% {
+    clip: rect(68px, 9999px, 147px, 0);
+    transform: skew(0.7deg);
+  }
+  70% {
+    clip: rect(133px, 9999px, 39px, 0);
+    transform: skew(0.2deg);
+  }
+  75% {
+    clip: rect(177px, 9999px, 129px, 0);
+    transform: skew(0.5deg);
+  }
+  80% {
+    clip: rect(53px, 9999px, 166px, 0);
+    transform: skew(0.1deg);
+  }
+  85% {
+    clip: rect(67px, 9999px, 62px, 0);
+    transform: skew(0.8deg);
+  }
+  90% {
+    clip: rect(81px, 9999px, 134px, 0);
+    transform: skew(0.3deg);
+  }
+  95% {
+    clip: rect(56px, 9999px, 187px, 0);
+    transform: skew(0.6deg);
+  }
+  100% {
+    clip: rect(182px, 9999px, 92px, 0);
+    transform: skew(0.4deg);
+  }
+}
+
+/* Effet activé seulement au survol */
+.glitch.enable-on-hover {
+  animation: none;
+}
+
+.glitch.enable-on-hover::before,
+.glitch.enable-on-hover::after {
+  animation: none;
+}
+
+.glitch.enable-on-hover:hover {
+  animation: glitch-main 0.5s infinite;
+}
+
+.glitch.enable-on-hover:hover::before {
+  animation: glitch-before 0.3s infinite linear alternate-reverse;
+}
+
+.glitch.enable-on-hover:hover::after {
+  animation: glitch-after 0.4s infinite linear alternate-reverse;
+}
+
+/* Variantes de couleurs */
+.glitch.blue-theme::before {
+  text-shadow: 5px 0 #00ffff;
+}
+
+.glitch.blue-theme::after {
+  text-shadow: -5px 0 #0080ff;
+}
+
+.glitch.green-theme::before {
+  text-shadow: 5px 0 #00ff00;
+}
+
+.glitch.green-theme::after {
+  text-shadow: -5px 0 #80ff00;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .glitch {
+    letter-spacing: 0.05em;
+  }
+  
+  .glitch::before,
+  .glitch::after {
+    text-shadow: 2px 0 cyan, -2px 0 red;
+  }
+}
