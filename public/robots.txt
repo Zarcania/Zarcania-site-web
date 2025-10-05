@@ -6,7 +6,7 @@ Disallow: /*.json$
 Disallow: /api/
 
 # Sitemap
-Sitemap: https://zarcania-duplicated-5wuu.bolt.host/sitemap.xml
+Sitemap: https://zarcania.fr/sitemap.xml
 
 # Crawl-delay
 Crawl-delay: 1

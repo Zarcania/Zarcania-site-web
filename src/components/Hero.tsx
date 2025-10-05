@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import PlanetAnimation from './PlanetAnimation';
 
@@ -32,24 +33,22 @@ const Hero = () => {
   <PlanetAnimation />
         
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center animate-fadeInUp animate-delay-500">
-          <button 
-            onClick={() => window.location.href = '/#formules'}
-            className="group px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-semibold font-modern rounded-full hover:from-cyan-400 hover:to-blue-400 transform hover:scale-105 shadow-xl shadow-cyan-500/30 backdrop-blur-sm"
+          <Link 
+            to="/formules"
+            className="group px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-semibold font-modern rounded-full hover:from-cyan-400 hover:to-blue-400 transform hover:scale-105 shadow-xl shadow-cyan-500/30 backdrop-blur-sm transition-all duration-300 inline-flex items-center"
             aria-label="Découvrir nos formules de création de sites web"
           >
-            <span className="flex items-center">
-              Voir nos formules dès 600€
-              <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </span>
-          </button>
+            Voir nos formules dès 600€
+            <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+          </Link>
           
-          <button 
-            onClick={() => window.dispatchEvent(new Event('navigate:appointment'))}
-            className="px-8 py-4 border-2 border-cyan-400/70 text-cyan-300 font-semibold font-modern rounded-full hover:bg-cyan-400/20 backdrop-blur-sm shadow-lg shadow-cyan-500/10"
+          <Link 
+            to="/rendez-vous"
+            className="px-8 py-4 border-2 border-cyan-400/70 text-cyan-300 font-semibold font-modern rounded-full hover:bg-cyan-400/20 backdrop-blur-sm shadow-lg shadow-cyan-500/10 transition-all duration-300 inline-flex items-center"
             aria-label="Prendre rendez-vous pour un devis gratuit"
           >
             Devis gratuit
-          </button>
+          </Link>
         </div>
 
         {/* Stats */}

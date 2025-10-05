@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 interface FooterProps {
   onPortfolioClick?: () => void;
@@ -6,7 +7,6 @@ interface FooterProps {
   onContactClick?: () => void;
   onAppointmentClick?: () => void;
   onNavigateHome?: (section?: string) => void;
-  onMentionsLegalesClick?: () => void;
 }
 
 const Footer: React.FC<FooterProps> = ({ 
@@ -14,8 +14,7 @@ const Footer: React.FC<FooterProps> = ({
   onFormulesClick, 
   onContactClick, 
   onAppointmentClick, 
-  onNavigateHome,
-  onMentionsLegalesClick
+  onNavigateHome
 }) => {
   const handleNavigation = (section?: string, isPortfolio?: boolean, isFormules?: boolean, isContact?: boolean, isAppointment?: boolean) => {
     if (isPortfolio && onPortfolioClick) {
@@ -30,12 +29,6 @@ const Footer: React.FC<FooterProps> = ({
       onNavigateHome(section);
     } else if (onNavigateHome) {
       onNavigateHome();
-    }
-  };
-
-  const handleMentionsLegalesClick = () => {
-    if (onMentionsLegalesClick) {
-      onMentionsLegalesClick();
     }
   };
 
@@ -127,12 +120,12 @@ const Footer: React.FC<FooterProps> = ({
               <span>&copy; 2025 Zarcania - Agence Web Paris. Tous droits réservés.</span>
               <div className="flex items-center gap-2">
                 <span className="hidden sm:inline">•</span>
-                <button 
-                  onClick={handleMentionsLegalesClick}
+                <Link 
+                  to="/mentions-legales"
                   className="hover:text-cyan-300 transition-colors"
                 >
                   Mentions légales
-                </button>
+                </Link>
                 <span>•</span>
                 <a 
                   href="/CGV.pdf" 

@@ -8,23 +8,57 @@ const ContactPage = () => {
     prenom: '',
     email: '',
     societe: '',
-    message: ''
+    message: '',
+    honeypot: '', // Champ anti-spam caché
+    consent: false // Case de consentement RGPD
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitted(true);
+    
+    // Protection anti-spam : vérifier le honeypot
+    if (formData.honeypot !== '') {
+      console.warn('Tentative de spam détectée');
+      return;
+    }
+    
+    // Vérifier le consentement RGPD
+    if (!formData.consent) {
+      alert('Veuillez accepter notre politique de confidentialité pour continuer.');
+      return;
+    }
+    
+    setIsSubmitting(true);
+    
+    // Simulation d'envoi (remplacer par API)
     setTimeout(() => {
-      setIsSubmitted(false);
-      setFormData({ nom: '', prenom: '', email: '', societe: '', message: '' });
-    }, 3000);
+      setIsSubmitted(true);
+      setIsSubmitting(false);
+      
+      setTimeout(() => {
+        setIsSubmitted(false);
+        setFormData({ 
+          nom: '', 
+          prenom: '', 
+          email: '', 
+          societe: '', 
+          message: '', 
+          honeypot: '',
+          consent: false 
+        });
+      }, 3000);
+    }, 1000);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value, type } = e.target;
+    const checked = (e.target as HTMLInputElement).checked;
+    
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [name]: type === 'checkbox' ? checked : value
     });
   };
 
@@ -157,12 +191,56 @@ const ContactPage = () => {
                       />
                     </div>
 
+                    {/* Champ honeypot caché (anti-spam) */}
+                    <div className="hidden">
+                      <label htmlFor="website">Ne pas remplir ce champ</label>
+                      <input
+                        type="text"
+                        name="honeypot"
+                        id="website"
+                        value={formData.honeypot}
+                        onChange={handleInputChange}
+                        tabIndex={-1}
+                        autoComplete="off"
+                      />
+                    </div>
+
+                    {/* Case de consentement RGPD */}
+                    <div className="flex items-start space-x-3 p-4 bg-slate-700/50 border border-cyan-500/20 rounded-xl">
+                      <input
+                        type="checkbox"
+                        name="consent"
+                        id="consent"
+                        checked={formData.consent}
+                        onChange={handleInputChange}
+                        className="mt-1 w-5 h-5 text-cyan-500 bg-slate-600 border-cyan-500/40 rounded focus:ring-cyan-400 focus:ring-2"
+                        required
+                      />
+                      <label htmlFor="consent" className="text-sm text-gray-300 font-modern leading-relaxed">
+                        J'accepte que mes données personnelles soient traitées par Zarcania dans le cadre de ma demande de contact. 
+                        Conformément au RGPD, vous pouvez exercer vos droits d'accès, de rectification et de suppression en nous contactant. 
+                        <a 
+                          href="/mentions-legales" 
+                          className="text-cyan-400 hover:text-cyan-300 underline ml-1"
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                        >
+                          Voir notre politique de confidentialité
+                        </a>
+                      </label>
+                    </div>
+
                     <button
                       type="submit"
-                      className="w-full py-4 bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-semibold font-modern rounded-xl hover:from-cyan-400 hover:to-blue-400 transition-all duration-300 flex items-center justify-center"
+                      disabled={isSubmitting || !formData.consent}
+                      className={`w-full py-4 text-white font-semibold font-modern rounded-xl transition-all duration-300 flex items-center justify-center ${
+                        isSubmitting || !formData.consent
+                          ? 'bg-gray-600 cursor-not-allowed opacity-50'
+                          : 'bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400'
+                      }`}
                     >
                       <Send className="w-5 h-5 mr-2" />
-                      Envoyer le message
+                      {isSubmitting ? 'Envoi en cours...' : 'Envoyer le message'}
                     </button>
                   </form>
                 </>
