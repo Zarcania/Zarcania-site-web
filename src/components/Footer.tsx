@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Instagram, Facebook, Linkedin } from 'lucide-react';
 
 interface FooterProps {
   onPortfolioClick?: () => void;
@@ -101,7 +102,7 @@ const Footer: React.FC<FooterProps> = ({
             </p>
             
             {/* Contact rapide */}
-            <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-2 md:gap-3 text-sm text-gray-400 mb-3">
+            <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-2 md:gap-3 text-sm text-gray-400 mb-4">
               <div className="flex items-center justify-center gap-4">
                 <span>contact@zarcania.com</span>
                 <span className="hidden sm:inline">•</span>
@@ -111,6 +112,39 @@ const Footer: React.FC<FooterProps> = ({
                 <span className="hidden sm:inline">•</span>
               </div>
               <span>Paris, France</span>
+            </div>
+
+            {/* Réseaux sociaux */}
+            <div className="flex justify-center items-center gap-4 mb-4">
+              <a 
+                href="https://www.instagram.com/zarcania.fr/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="p-2 rounded-full bg-slate-800/60 border border-cyan-500/30 hover:border-cyan-400 hover:bg-slate-700/80 transition-all duration-300 group"
+                aria-label="Suivez Zarcania sur Instagram"
+              >
+                <Instagram className="w-5 h-5 text-gray-400 group-hover:text-cyan-300 transition-colors" />
+              </a>
+              
+              <a 
+                href="https://www.facebook.com/share/173JSiYjaW/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="p-2 rounded-full bg-slate-800/60 border border-cyan-500/30 hover:border-cyan-400 hover:bg-slate-700/80 transition-all duration-300 group"
+                aria-label="Suivez Zarcania sur Facebook"
+              >
+                <Facebook className="w-5 h-5 text-gray-400 group-hover:text-cyan-300 transition-colors" />
+              </a>
+
+              <a 
+                href="https://www.linkedin.com/in/zarcania-985950228?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="p-2 rounded-full bg-slate-800/60 border border-cyan-500/30 hover:border-cyan-400 hover:bg-slate-700/80 transition-all duration-300 group"
+                aria-label="Suivez Zarcania sur LinkedIn"
+              >
+                <Linkedin className="w-5 h-5 text-gray-400 group-hover:text-cyan-300 transition-colors" />
+              </a>
             </div>
           </div>
           
